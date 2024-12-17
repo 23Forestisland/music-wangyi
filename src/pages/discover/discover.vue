@@ -4,9 +4,7 @@ import { ref, reactive} from 'vue'
 </script>
 
 <template>
- <div>
-<h1>首页</h1>
- </div>
+<h1>发现</h1>
 </template>
 
 <style lang='scss' scoped>
