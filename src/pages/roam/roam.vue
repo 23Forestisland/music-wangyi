@@ -5,7 +5,7 @@ import { ref, reactive} from 'vue'
 
 <template>
  <div>
-<h1>首页</h1>
+<h1>漫游</h1>
  </div>
 </template>
 
