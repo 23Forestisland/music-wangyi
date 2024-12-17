@@ -1,6 +1,4 @@
 import { createSSRApp } from "vue";
-import './common/icon/font_4781276_vaj6ayh9ur/iconfont.css'
-import './common/scss/common.scss'
 import App from "./App.vue";
 export function createApp() {
   const app = createSSRApp(App);
