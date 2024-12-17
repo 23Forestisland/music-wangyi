@@ -5,7 +5,7 @@ import { ref, reactive} from 'vue'
 const searchValue=ref<string>()
 
 
-const search=(res)=> {
+const search=(res )=> {
         uni.showToast({
             title: '搜索：' + res.value,
             icon: 'none'
