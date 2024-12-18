@@ -48,3 +48,8 @@ export const getVersionApi = () =>{
 export const getPrivateApi = () =>{
     return request<VersionRes>({url:'https://zyxcl.xyz/music/api/dj/recommend'})
 }
+
+// 歌单详情
+export const getDetailApi = (id:number) =>{
+    return request<VersionRes>({url:`https://zyxcl.xyz/music/api/playlist/detail?id=${id}`})
+}

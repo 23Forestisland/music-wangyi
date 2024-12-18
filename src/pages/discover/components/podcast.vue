@@ -1,14 +1,13 @@
 <script lang='ts' setup >
 import { ref, reactive} from 'vue'
-import { getPodcastApi, getVersionApi, getPrivateApi } from '../serviceDiscover'
-import type { PodcastItem } from '../serviceDiscover'
+import { getPodcastApi, getVersionApi, getPrivateApi } from '../../../serviceDiscover'
+import type { PodcastItem } from '../../../serviceDiscover'
 
 const privateList = ref<PodcastItem[]>([])
 const getPrivate = async () => {
     try{
         const res = await getPrivateApi()
         privateList.value = res.djRadios
-        console.log(res.djRadios)
     }catch(e){
         console.log(e)
     }
@@ -37,6 +36,16 @@ const getVersion = async() =>{
 }
 getVersion()
 
+const goDetail = (id: number) => {
+    console.log(id)
+    uni.navigateTo({
+        url: `/pages/detail/detail?id=${id}`,
+        data: {
+            id: id
+        }
+    })
+}
+
 
 const headList = ref([ '我的播客', '全部分类', '排行榜', '音乐百科', '助眠解压', '广播电台' ])
 
@@ -49,7 +58,7 @@ const headList = ref([ '我的播客', '全部分类', '排行榜', '音乐百�
             <view class="tags" v-for="item in  headList" :key="item">{{ item }}</view>
         </view>
     </scroll-view>
-    <swiper class="swiperBox" next-margin="15px" previous-margin="15px">
+    <swiper class="swiperBox" next-margin="15px" previous-margin="10px">
         <swiper-item class="swiperItem" v-for="item in privateList" :key="item.id">
             <view class="swiCount">
                 <image :src="item.picUrl" mode="heightFix" class=""/>
@@ -68,7 +77,10 @@ const headList = ref([ '我的播客', '全部分类', '排行榜', '音乐百�
             <view class="like">兴趣定制</view>
         </view>
         <view class="excItem">
-            <view v-for="item in podcast" :key="item.id" class="picitem">
+            <view v-for="item in podcast" :key="item.id" 
+                class="picitem" 
+                @click="goDetail(item.id)" 
+            >
                 <image :src="item.picUrl" mode="widthFix" />
                 <view class="picText">{{ item.name }}</view>
             </view>
@@ -117,7 +129,7 @@ const headList = ref([ '我的播客', '全部分类', '排行榜', '音乐百�
 }
 .swiperItem {
     .swiCount{
-        width: 90%;
+        width: 100%;
         height: 100px;
         background: #f0eced;
         margin-top: 30px;

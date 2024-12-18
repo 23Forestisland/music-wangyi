@@ -22,7 +22,7 @@ const goSearch = () => {
     <view class="box">
         <!-- tabs切换 -->
         <view class="header">
-            <i class="iconfont icon-gengduo" @click="showLeftFn"></i>
+            <i class="iconfont icon-gengduo1" @click="showLeftFn"></i>
             <view class="tab">
                 <view v-for="(item, idx) in tabs" :key="item"
                     :class="{'active': idx === tab}"
