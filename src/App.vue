@@ -16,4 +16,10 @@ onHide(() => {
   padding: 0;
   box-sizing: border-box;
 }
+body,html{
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #f8f9fd;
+}
 </style>
