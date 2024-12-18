@@ -5,8 +5,8 @@ import Music from './Music/Music.vue';
 
 
 const showLeft = ref()
-const tab = ref(0)
-const tabs = ref(['音乐','播客','听书'])
+const tab = ref<number>(0)
+const tabs = ref<string[]>(['音乐','播客','听书'])
 
 const showLeftFn = () => {
     showLeft.value.open()
