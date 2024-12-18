@@ -11,6 +11,11 @@ onHide(() => {
 });
 </script>
 <style>
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 .discover-music-swiper-wrap{
   .uni-swiper-dots-horizontal {
     transform: none;
