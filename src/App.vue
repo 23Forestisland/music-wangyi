@@ -10,4 +10,11 @@ onHide(() => {
   console.log("App Hide");
 });
 </script>
-<style></style>
+<style>
+.discover-music-swiper-wrap{
+  .uni-swiper-dots-horizontal {
+    transform: none;
+    left: 10%;
+  }
+}
+</style>

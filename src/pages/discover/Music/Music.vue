@@ -11,7 +11,7 @@ getBannerApi()
 </script>
 
 <template>
-    <view class="swiper-wrap">
+    <view class="discover-music-swiper-wrap">
         <swiper
             class="swiper"
             indicator-dots
@@ -28,15 +28,19 @@ getBannerApi()
 </template>
 
 <style lang='scss' scoped>
-.swiper-wrap {
+.discover-music-swiper-wrap {
     margin: 20px 0;
-    height: 288rpx;
+    height: 248rpx;
     .swiper{
-        height: 288rpx;
-        image {
-        width: 100%;
-        border-radius: 10px;
+        height: 248rpx;
+        .swiper-item {
+            padding: 0 20px;
+            image {
+                width: 100%;
+                border-radius: 10px;
+            }
         }
     }
 }
+
 </style>
