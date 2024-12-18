@@ -3,12 +3,12 @@ import { ref, reactive} from 'vue'
 import { getPodcastApi, getVersionApi, getPrivateApi } from '../serviceDiscover'
 import type { PodcastItem } from '../serviceDiscover'
 
-const privateList = ref([])
+const privateList = ref<PodcastItem[]>([])
 const getPrivate = async () => {
     try{
         const res = await getPrivateApi()
-        // privateList.value = res.data
-        console.log(res)
+        privateList.value = res.djRadios
+        console.log(res.djRadios)
     }catch(e){
         console.log(e)
     }
@@ -50,18 +50,16 @@ const headList = ref([ '我的播客', '全部分类', '排行榜', '音乐百�
         </view>
     </scroll-view>
     <swiper class="swiperBox" next-margin="15px" previous-margin="15px">
-        <swiper-item class="swiperItem">
+        <swiper-item class="swiperItem" v-for="item in privateList" :key="item.id">
             <view class="swiCount">
-                <image src="" mode="heightFix" class=""/>
-                <view class="swiText">内容</view>
+                <image :src="item.picUrl" mode="heightFix" class=""/>
+                <view class="swiText">
+                    <view class="iteTitle">{{ item.name }}</view>
+                    <view class="play">{{ item.playCount / 10000}}万次播放</view>
+                    <view class="count">{{ item.copywriter }}</view>
+                </view>
                 <i class="iconfont icon-bofang"></i>
             </view>
-        </swiper-item>
-        <swiper-item class="swiperItem">
-            <view class="swiCount">2</view>
-        </swiper-item>
-        <swiper-item class="swiperItem">
-            <view class="swiCount">3</view>
         </swiper-item>
     </swiper>
     <view class="exclusive">
@@ -134,11 +132,37 @@ const headList = ref([ '我的播客', '全部分类', '排行榜', '音乐百�
             margin-right: 10px;
         }
         .swiText{
-            flex: 1;
+            width: 170px;
+            height: 70px;
+            margin-right: 10px;
+            .iteTitle{
+                font-size: 14px;
+                color: #7e373f;
+            }
+            .play{
+                font-size: 12px;
+                color: #dfc7c9;
+                margin-top: 5px;
+            }
+           .count{
+                width: 100%;
+                height: 14px;
+                font-size: 12px;
+                color: #bc9598;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                margin-top: 10px;
+           }
         }
         i{
-            width: 40px;
-            height: 100%;
+            width: 30px;
+            height: 30px;
+            background: #e6d8d9;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-top: 40px;
+            color: #7d3542;
         }
     }
 }
@@ -169,6 +193,7 @@ const headList = ref([ '我的播客', '全部分类', '排行榜', '音乐百�
     image{
         width: 105px;
         border-radius: 8px;
+        white-space: nowrap;
     }
 }
 .picText{
@@ -196,4 +221,5 @@ const headList = ref([ '我的播客', '全部分类', '排行榜', '音乐百�
         border-radius: 8px;
     }
 }
+
 </style>

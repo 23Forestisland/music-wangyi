@@ -20,6 +20,13 @@
       "unicode_decimal": 58625
     },
     {
+      "icon_id": "2076218",
+      "name": "播放2",
+      "font_class": "bofang",
+      "unicode": "e87c",
+      "unicode_decimal": 59516
+    },
+    {
       "icon_id": "8721206",
       "name": "搜索",
       "font_class": "sousuo",

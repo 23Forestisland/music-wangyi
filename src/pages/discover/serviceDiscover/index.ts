@@ -21,6 +21,8 @@ export interface PodcastItem{
     id: number
     name: string
     picUrl: string
+    playCount: number
+    copywriter: string
 }
 export interface PodcastRes {
     code: number
@@ -44,5 +46,5 @@ export const getVersionApi = () =>{
 
 // 私人播客
 export const getPrivateApi = () =>{
-    return request({url:'https://zyxcl.xyz/music/api/personal/fm/mode'})
+    return request<VersionRes>({url:'https://zyxcl.xyz/music/api/dj/recommend'})
 }

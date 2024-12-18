@@ -4,7 +4,6 @@ import App from "./App.vue"
 import 'uview-ui/theme.scss';
 
 
-
 export function createApp() {
   const app = createSSRApp(App);
   return {

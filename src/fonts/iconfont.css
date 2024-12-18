@@ -1,6 +1,6 @@
 @font-face {
   font-family: "iconfont"; /* Project id  */
-  src: url('iconfont.ttf?t=1734435802839') format('truetype');
+  src: url('iconfont.ttf?t=1734509846142') format('truetype');
 }
 
 .iconfont {
@@ -17,6 +17,10 @@
 
 .icon-yule:before {
   content: "\e501";
+}
+
+.icon-bofang:before {
+  content: "\e87c";
 }
 
 .icon-sousuo:before {
