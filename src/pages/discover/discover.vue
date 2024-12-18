@@ -1,5 +1,5 @@
 <script lang='ts' setup >
-import { ref, reactive} from 'vue';
+import { ref, reactive} from 'vue'
 import podcast from './components/podcast.vue'
 import Music from './Music/Music.vue';
 

@@ -33,13 +33,13 @@
 		{
 			"path": "pages/search/search",
 			"style": {
-				"navigationBarTitleText": "我的"
+				"navigationBarTitleText": "搜索"
 			}
 		},
 		{
 			"path": "pages/detail/detail",
 			"style": {
-				"navigationBarTitleText": "搜索"
+				"navigationBarTitleText": "详情"
 			}
 		}
 	],"tabBar": {
