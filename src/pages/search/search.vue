@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <script setup lang="ts">
 import { ref, reactive,watch} from 'vue'
 import Historical from './components/historical.vue';
@@ -181,3 +182,5 @@ watch([searchValue,isSearch],()=>{
         }
     }
 </style>
+=======
+>>>>>>> bdcd9615e3fd3b3304f3b6fc58379b0c739d6fd7
