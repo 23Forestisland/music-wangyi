@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { ref, reactive} from 'vue'
+import Historical from './components/historical.vue';
+import HotList from './components/hotList.vue';
+import GuessLike from './components/guessLike.vue'
 
 
 const searchValue=ref<string>()
@@ -44,6 +47,13 @@ const search=(res)=> {
             <text>识曲</text>
         </view>
     </view>
+    <!-- 搜索历史 -->
+    <Historical />
+    <!-- 猜你喜欢 -->
+    <GuessLike />
+    <!-- 榜单列表 -->
+    <HotList />
+
 </template>
 
 <style lang='scss' scoped>
