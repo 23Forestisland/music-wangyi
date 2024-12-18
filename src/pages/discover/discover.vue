@@ -1,5 +1,6 @@
 <script lang='ts' setup >
 import { ref, reactive} from 'vue'
+import Podcast from './components/Podcast.vue'
 
 const showLeft = ref()
 const tab = ref(0)
@@ -31,16 +32,20 @@ const goSearch = () => {
             <i class="iconfont icon-sousuo" @click="goSearch"></i>
         </view>
         <!-- 内容 -->
-        <view class="content" v-for="(item,idx) in 3" :key="item">
-            <view v-show="tab === idx">
-                <!-- 音乐 -->
-                <view v-if="idx === 0">{{ item }}</view>
-                <!-- 博客 -->
-                <view v-else-if="idx === 1">{{ item }}</view>
-                <!-- 听书 -->
-                <view v-else-if="idx === 2">{{ item }}</view>
+        <scroll-view scroll-y class="scroll">
+            <view class="content" v-for="(item,idx) in 3" :key="item">
+                <view v-show="tab === idx">
+                    <!-- 音乐 -->
+                    <view v-if="idx === 0">{{ item }}</view>
+                    <!-- 博客 -->
+                    <view v-else-if="idx === 1">
+                        <Podcast />
+                    </view>
+                    <!-- 听书 -->
+                    <view v-else-if="idx === 2">{{ item }}</view>
+                </view>
             </view>
-        </view>
+        </scroll-view>
 
         <!-- 左侧抽屉 -->
         <uni-drawer ref="showLeft" mode="left" :width="320" >
@@ -49,10 +54,16 @@ const goSearch = () => {
 </template>
 
 <style lang='scss' scoped>
+uni-page-body{
+    height: 100%;
+}
 .box{
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
+    background: #f8f9fd;
+    display: flex;
+    flex-direction: column;
 }
 .header{
     width: 100%;
@@ -63,6 +74,8 @@ const goSearch = () => {
     justify-content: space-between;
     i{
         font-size: 20px;
+        width: 30px;
+        height: 30px;
     }
     .tab{
         width: 180px;
@@ -87,5 +100,9 @@ const goSearch = () => {
         }
     }
 }
-
+.scroll{
+    width: 100vw;
+    height: 100vh;
+    padding-bottom: 100px;
+}
 </style>
