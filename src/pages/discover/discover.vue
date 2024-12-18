@@ -1,6 +1,6 @@
 <script lang='ts' setup >
 import { ref, reactive} from 'vue'
-import podcast from './components/podcast.vue';
+import podcast from './components/podcast.vue'
 
 const showLeft = ref()
 const tab = ref(0)
@@ -55,10 +55,16 @@ const goSearch = () => {
 </template>
 
 <style lang='scss' scoped>
+uni-page-body{
+    height: 100%;
+}
 .box{
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
+    background: #f8f9fd;
+    display: flex;
+    flex-direction: column;
 }
 .header{
     width: 100%;
@@ -69,6 +75,8 @@ const goSearch = () => {
     justify-content: space-between;
     i{
         font-size: 20px;
+        width: 30px;
+        height: 30px;
     }
     .tab{
         width: 180px;
