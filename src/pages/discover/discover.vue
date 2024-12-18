@@ -1,5 +1,6 @@
 <script lang='ts' setup >
 import { ref, reactive} from 'vue'
+import podcast from './components/podcast.vue';
 
 const showLeft = ref()
 const tab = ref(0)
@@ -31,16 +32,21 @@ const goSearch = () => {
             <i class="iconfont icon-sousuo" @click="goSearch"></i>
         </view>
         <!-- 内容 -->
-        <view class="content" v-for="(item,idx) in 3" :key="item">
-            <view v-show="tab === idx">
-                <!-- 音乐 -->
-                <view v-if="idx === 0">{{ item }}</view>
-                <!-- 博客 -->
-                <view v-else-if="idx === 1">{{ item }}</view>
-                <!-- 听书 -->
-                <view v-else-if="idx === 2">{{ item }}</view>
+        <scroll-view class="scroll" scroll-y>
+             <view class="content" v-for="(item,idx) in 3" :key="item">
+                <view v-show="tab === idx">
+                    <!-- 音乐 -->
+                    <view v-if="idx === 0">{{ item }}</view>
+                    <!-- 博客 -->
+                    <view v-else-if="idx === 1">
+                        <podcast />
+                    </view>
+                    <!-- 听书 -->
+                    <view v-else-if="idx === 2">{{ item }}</view>
+                </view>
             </view>
-        </view>
+        </scroll-view>
+       
 
         <!-- 左侧抽屉 -->
         <uni-drawer ref="showLeft" mode="left" :width="320" >
@@ -87,5 +93,9 @@ const goSearch = () => {
         }
     }
 }
-
+.scroll{
+    width: 100%;
+    height: 100%;
+    padding-bottom: 100px;
+}
 </style>
