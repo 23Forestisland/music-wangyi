@@ -36,8 +36,21 @@ export interface HotlistRes{
     list:[]
 }
 
+export interface DetailList{
+    code:number
+    playlist:{
+        tracks:Detail[]
+    }
+}
+
+export interface Detail{
+    name:string
+}
+
+
+
 export const guessSongsApi=()=>{
-    return request<RecmdsongRes>({ url: 'https://zyxcl.xyz/music/api/recommend/songs' })
+    return request<RecmdsongRes>({ url: 'https://zyxcl.xyz/music/api/recommend/songs'})
     
 }
 
@@ -48,3 +61,10 @@ export const hotSearchApi=()=>{
     
 }
 
+
+
+// 调取歌单详情
+export const detailListApi=(id:number)=>{
+    return request<DetailList>({ url: 'https://zyxcl.xyz/music/api/playlist/detail',data:{id}})
+    
+}
