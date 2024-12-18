@@ -3,6 +3,7 @@ import { ref, reactive,watch, nextTick} from 'vue'
 import {hotSearchApi,detailListApi} from '../../serviceSearch'
 import type {Dailys,Detail} from '../../serviceSearch'
 import Index from '@/pages/index/index.vue';
+import { onShow } from '@dcloudio/uni-app';
 
 const hotlist=ref<Dailys[]>([])
 
@@ -13,6 +14,12 @@ type lArr=Detail[]
 
 let listArr=ref<lArr[]>([])
 let midArr:lArr[]=[]
+
+interface Emits {
+    changeVal: [value: string]
+}
+
+const emits=defineEmits<Emits>()
 
 const getHotList=async ()=>{
     try{
@@ -44,8 +51,10 @@ const randerList= async()=>{
     
 }
 
+onShow(()=>{
+    getHotList()
+})
 
-getHotList()
 
 
 
@@ -73,7 +82,7 @@ const changecur=(e)=>{
                             <text class="iconfont icon-bofang">播放</text>
                         </view>
                         <view class="dtlList">
-                            <view class="ls-item" v-for="(item,idx) in listArr[index]" :key="item.name"><text>{{ idx+1+'.'}}</text>{{item.name}}</view>
+                            <view class="ls-item" v-for="(item,idx) in listArr[index]" :key="item.name" @click="emits('changeVal',item.name)"><view class="numb">{{ idx+1+'.'}}</view>{{item.name}}</view>
                         </view>
                     </view>
 				</swiper-item>
@@ -87,6 +96,7 @@ const changecur=(e)=>{
 }
 .swiper{
     height :600px ;
+    
 }
 .swp{
     width: 100%;
@@ -94,11 +104,12 @@ const changecur=(e)=>{
 }
 .swiper-item{
     width:100%;
-    min-height: 40px;
+    height: 580px;
     padding: 0 15px 15px;
     background: #eee;
     border-radius: 10px;
     margin-right: 10px;
+    margin-bottom: 20px;
     
     .tit{
         width:100%;
@@ -137,9 +148,16 @@ const changecur=(e)=>{
     text-overflow: ellipsis;
     overflow: hidden;
     display: flex;
+    align-items: center;
     cursor: pointer;
-    text{
+    .numb{
+        flex-shrink: 0;
+        width: 20px;
+        text-align: center;
         margin-right: 5px;
+    }
+    text{
+        flex: 1;
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;

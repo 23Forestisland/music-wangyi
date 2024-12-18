@@ -3,7 +3,11 @@ import { ref, reactive,onMounted} from 'vue'
 import {guessSongsApi} from '../../serviceSearch'
 import type {Dailys} from '../../serviceSearch'
 
+interface Emits {
+    changeVal: [value: string]
+}
 
+const emits=defineEmits<Emits>()
 const guessList=ref<Dailys[]>()
 
 const getGusList= async ()=>{
@@ -31,7 +35,7 @@ onMounted(()=>{
     </view>
     <view class="content">
       <view class="dateList">
-        <view class="List-it" v-for="item in guessList" :key="item.id">{{ item.name }}</view>
+        <view class="List-it" v-for="item in guessList" :key="item.id" @click="emits('changeVal',item.name)">{{ item.name }}</view>
       </view>
     </view>
   </view>

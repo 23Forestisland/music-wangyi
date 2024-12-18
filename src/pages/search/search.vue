@@ -1,19 +1,93 @@
 <script setup lang="ts">
-import { ref, reactive} from 'vue'
+import { ref, reactive,watch} from 'vue'
 import Historical from './components/historical.vue';
 import HotList from './components/hotList.vue';
 import GuessLike from './components/guessLike.vue'
-
+import {searchApi,suggestApi} from '../serviceSearch/index'
+import type {SearchResultItem,SearchSuggestItem} from '../serviceSearch/index'
+import Suggest from './components/suggest.vue'
+import SrhRes from './components/srhRes.vue';
+import {useStore} from '../../store'
 
 const searchValue=ref<string>()
+const showList=ref<number>(0)
+const isSearch=ref<boolean>(false)
+const loading=ref<boolean>()
+const resultList = ref<SearchResultItem[]>([])
+const suggestList=ref<SearchSuggestItem[]>([])
+const store=useStore()
+let timer: number
 
 
-const search=(res)=> {
-        uni.showToast({
-            title: '搜索：' + res.value,
-            icon: 'none'
-        })
+enum ListType {
+    DEFAULT = 0,
+    relevant=1,
+    search= 2
 }
+
+const getSuggestList= async ( val:string)=>{
+    try{
+        const res=await suggestApi(val)
+        console.log(res)
+        suggestList.value = res.result.allMatch
+    }catch(e){
+        console.log(e)
+    }
+}
+
+const input = (val: string) => {
+    if (val !== '' && !loading.value) {
+        console.log('input 事件')
+        if (timer) clearTimeout(timer)
+        timer = setTimeout(() => {
+            getSuggestList(val)
+        }, 500)
+    }
+}
+
+
+
+
+
+const search= async () => {
+    isSearch.value=true
+    loading.value = true
+    console.log('search 事件', searchValue.value)
+    const res = await searchApi(searchValue.value as string)
+    resultList.value = res.result.songs
+    loading.value = false
+    let arr:string[]=JSON.parse(localStorage.getItem('historical')!) || []
+    if(arr.indexOf(searchValue.value as string)<0){
+        store.historical.push(searchValue.value!)
+        localStorage.setItem('historical',JSON.stringify(store.historical))
+    }
+}
+
+const clickSearch=()=>{
+    search()
+}
+
+const tapSearch=(value: string)=>{
+    searchValue.value=value
+    search()
+}
+
+
+
+watch([searchValue,isSearch],()=>{
+    if(searchValue.value){
+        showList.value=1
+        input(searchValue.value as string)
+        if(isSearch.value){
+            showList.value=2
+        }
+    }else{
+        showList.value=0
+        isSearch.value=false
+        resultList.value=[]
+        suggestList.value=[]
+    }
+})
 
 </script>
 
@@ -21,38 +95,46 @@ const search=(res)=> {
     <view class="head">
         <view class="iconfont icon-houtui"></view>
         <view class="search">
-            <uni-search-bar class="uni-mt-10" radius="5" placeholder="请输入搜索内容" clearButton="auto" cancelButton="none" @confirm="search" />
+            <uni-search-bar class="uni-mt-10" radius="5" placeholder="请输入搜索内容" clearButton="auto" cancelButton="none" v-model="searchValue" @confirm="search"  />
         </view>
-        <view>搜索</view>
+        <view @click="clickSearch">搜索</view>
     </view>
-    <!-- 搜索框下列表 -->
-    <view class="tabs">
-        <view class="tab-item">
-            <text class="iconfont icon-geshou"></text>
-            <text>歌手</text>
+    <view class="initial" v-show="showList===ListType.DEFAULT">
+            <!-- 搜索框下列表 -->
+        <view class="tabs">
+            <view class="tab-item">
+                <text class="iconfont icon-geshou"></text>
+                <text>歌手</text>
+            </view>
+            |
+            <view class="tab-item">
+                <text class="iconfont icon-benshu"></text>
+                <text>曲风</text>
+            </view>
+            |
+            <view class="tab-item">
+                <text class="iconfont icon-yinfuSVG-"></text>
+                <text>专区</text>
+            </view>
+            |
+            <view class="tab-item">
+                <text class="iconfont icon-maikefeng"></text>
+                <text>识曲</text>
+            </view>
         </view>
-        |
-        <view class="tab-item">
-            <text class="iconfont icon-benshu"></text>
-            <text>曲风</text>
-        </view>
-        |
-        <view class="tab-item">
-            <text class="iconfont icon-yinfuSVG-"></text>
-            <text>专区</text>
-        </view>
-        |
-        <view class="tab-item">
-            <text class="iconfont icon-maikefeng"></text>
-            <text>识曲</text>
-        </view>
+        <!-- 搜索历史 -->
+        <Historical   @changeVal="tapSearch"/>
+        <!-- 猜你喜欢 -->
+        <GuessLike   @changeVal="tapSearch"/>
+        <!-- 榜单列表 -->
+        <HotList   @changeVal="tapSearch"/>
     </view>
-    <!-- 搜索历史 -->
-    <Historical />
-    <!-- 猜你喜欢 -->
-    <GuessLike />
-    <!-- 榜单列表 -->
-    <HotList />
+    <view class="rel" v-show="showList===ListType.relevant">
+        <Suggest  :list="suggestList"   @changeVal="tapSearch" />
+    </view>
+    <view class="rel" v-show="showList===ListType.search">
+        <SrhRes :list="resultList" />
+    </view>
 
 </template>
 

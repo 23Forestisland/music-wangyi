@@ -68,3 +68,60 @@ export const detailListApi=(id:number)=>{
     return request<DetailList>({ url: 'https://zyxcl.xyz/music/api/playlist/detail',data:{id}})
     
 }
+
+
+export interface SearchResultItem {
+    id: number
+    name: string
+    album:{
+        name:string
+        id:number
+    }
+    artists: {
+    id: number
+    name: string
+    img1v1Url: string
+    }[]
+}
+
+
+export interface SearchRes{
+        code: number
+        result: {
+        hasMore: boolean
+        songs: SearchResultItem[]
+    }
+}
+
+
+export const searchApi = (keywords: string) => {
+    return request<SearchRes>({
+        url: 'https://zyxcl.xyz/music/api/search',
+        data: {
+            keywords
+        }
+    })
+}
+
+export interface SearchSuggestItem {
+    keyword: string
+}
+
+export interface SearchSuggestRes {
+    code: number
+    result: {
+        allMatch: SearchSuggestItem[]
+    }
+}
+
+
+export const suggestApi= (keywords: string) => {
+    return request<SearchSuggestRes>({
+        url: 'https://zyxcl.xyz/music/api/search/suggest',
+        data: {
+            keywords,
+            type:'mobile'
+        },
+        
+    })
+}
