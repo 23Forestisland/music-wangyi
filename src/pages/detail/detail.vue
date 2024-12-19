@@ -28,6 +28,13 @@ getDetail()
             <i class="iconfont icon-sousuo"></i>
             <i class="iconfont icon-gengduo"></i>
         </view>
+        <view class="img">
+            <image src="" mode="widthFix" ></image>
+            <view >
+                <view class="imgTitle">内容</view>
+                <view>内容</view>
+            </view>
+        </view>
     </view>
     <view class="content">
 
@@ -44,14 +51,15 @@ getDetail()
 .bg{
     width: 100%;
     height: 300px;
+    padding: 0 15px;
     background: linear-gradient(#444438,#161711);
+    
 }
 .header{
     width: 100%;
     height: 50px;
     display: flex;
     align-items: center;
-    padding: 0 15px;
     i{
         font-size: 25px;
         color: #fff;
@@ -71,5 +79,21 @@ getDetail()
     top: 270px;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
+}
+.img{
+    display: flex;
+    margin-bottom: 15px;
+    color: #ddd;
+    image{
+        width: 100px;
+        height: 100px;
+        background: #fff;
+        margin-right: 15px;
+        border-radius: 5px;
+    }
+    .imgTitle{
+        font-size: 18px;
+        color: #fff;
+    }
 }
 </style>
