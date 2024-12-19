@@ -19,3 +19,9 @@ dist
 *.njsproj
 *.sln
 *.sw?
+
+# 配置git的忽略文件
+node_modules/
+unpackage/
+*.mp3
+*.mp4

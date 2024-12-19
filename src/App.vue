@@ -21,5 +21,10 @@ onHide(() => {
     transform: none;
     left: 10%;
   }
+body,html{
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #f8f9fd;
 }
 </style>
