@@ -110,6 +110,6 @@ uni-page-body{
 .scroll{
     width: 100%;
     height: 100%;
-    padding-bottom: 0px;
+    padding-bottom: 50px;
 }
 </style>
