@@ -125,3 +125,47 @@ export const suggestApi= (keywords: string) => {
         
     })
 }
+
+export interface SongInfo{
+    id:number
+    url:string
+    time?:string
+}
+
+export interface songPlayeRes {
+    code: number
+    data: SongInfo[]
+}
+// 调取歌曲接口
+export const songApi= (id:number) => {
+    return request<songPlayeRes>({
+        url: 'https://zyxcl.xyz/music/api//song/url',
+        data: {
+            id
+        },
+    })
+}
+
+
+// export interface AlbumInfo{
+//     V:number
+//     name:string
+// }
+
+export interface AlbumRes {
+    resourceState: Boolean
+    album:{
+        blurPicUrl:string
+    }
+}
+
+
+// 获取专辑
+export const albumApi= (id:number) => {
+    return request<AlbumRes>({
+        url: 'https://zyxcl.xyz/music/api/album',
+        data: {
+            id
+        },
+    })
+}

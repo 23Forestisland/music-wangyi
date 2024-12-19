@@ -69,12 +69,16 @@ watch(()=>store.historical.length,()=>{
     padding: 0 20px;
     display: flex;
     .item-con{
+        max-width: 100px;
         height: 20px;
         line-height: 20px;
         padding: 0 10px;
         background: #ccc;
         border-radius: 10px;
         margin-right: 10px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 }
 .content2{
