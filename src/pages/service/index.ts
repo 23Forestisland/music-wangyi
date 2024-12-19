@@ -1,11 +1,13 @@
 interface requestParams{
-    url: string
+    url: string,
+    data?: object
 }
 
-export const bannerRequest = <T>({ url }: requestParams) => {
+export const bannerRequest = <T>({ url, data }: requestParams) => {
     return new Promise<T>((resolve, reject) => {
         uni.request({
             url,
+            data,
             success: (res) => {
                 resolve(res.data as T)
             },
@@ -55,5 +57,8 @@ export const getRecommendApi = () => {
 // 获取甄选歌单接口
 export const getSongListApi = () => {
     const url = 'https://zyxcl.xyz/music/api/personalized';
-    return bannerRequest<Res<'result', SongListItem>>({ url });
+    const data = {
+        limit: 6
+    };
+    return bannerRequest<Res<'result', SongListItem>>({ url, data });
 }
