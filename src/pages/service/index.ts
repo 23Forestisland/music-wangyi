@@ -36,3 +36,19 @@ export const getBannerApi = () => {
 //     const url = 'https://zyxcl.xyz/music/api/personalized';
 
 // }
+import request1 from "./request";
+import type{followRes,noteRecommendRes} from './type'
+
+
+
+export const getRecommendApi = () => {
+    return request1<noteRecommendRes>({
+      url: "/topic/detail/event/hot?actid=111551188",
+    });
+  };
+
+  export const getFollowApi = () => {
+    return request1<followRes>({
+      url: "/user/followeds?uid=416608258",
+    });
+  };
