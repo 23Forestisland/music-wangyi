@@ -7,11 +7,17 @@ interface Props{
 
 const props = defineProps<Props>()
 
+const goPlay = (id:number,albumId:number,name:string,art:string) => {
+    uni.navigateTo({
+        url: `/pages/player/player?id=${id}&albumId=${albumId}&name=${name}&art=${art}`
+    })
+}
+
 </script>
 
 <template>
 	<view class="list">
-		<view class="listItem" v-for="item in props.list">
+		<view class="listItem" v-for="item in props.list" @click="goPlay(item.id,item.al.id,item.name,item.ar.map(v=>v.name))">
             <image :src="item.al.picUrl" mode="widthFix" />
             <view class="text">
                 <view class="textItem">{{ item.name }}</view>

@@ -69,6 +69,11 @@ export interface DetailItem{
         al:{
             id: number
             picUrl: string
+            pic: number
+        }
+        ar:{
+            id: number
+            name: string
         }
     }
 }

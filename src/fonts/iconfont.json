@@ -83,6 +83,13 @@
       "unicode_decimal": 58883
     },
     {
+      "icon_id": "11519538",
+      "name": "麦克风",
+      "font_class": "maikefeng",
+      "unicode": "e73b",
+      "unicode_decimal": 59195
+    },
+    {
       "icon_id": "16731257",
       "name": "更多",
       "font_class": "gengduo",

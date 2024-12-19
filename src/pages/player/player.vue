@@ -27,7 +27,7 @@ let tm:number
 
 innerAudioContext.autoplay = true;
 onLoad((option)=>{
-    console.log(option!.id)
+    console.log(option!.albumId)
     query.value={
         id:option!.id,
         albumId:option!.albumId,
