@@ -23,7 +23,7 @@ export interface PodcastItem{
     picUrl: string
     playCount: number
     copywriter: string
-    subCount: number
+    subCount?: number
 }
 export interface PodcastRes {
     code: number
@@ -85,4 +85,9 @@ export const getDetailApi = (id:number) =>{
     return request<DetailRes>({url:`https://zyxcl.xyz/music/api/playlist/detail`,data:{
         id
     }})
+}
+
+//每日推荐
+export const getDayApi = () =>{
+    return request<PodcastRes>({url:'https://zyxcl.xyz/music/api/recommend/resource'})
 }
