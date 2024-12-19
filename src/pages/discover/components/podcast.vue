@@ -39,10 +39,7 @@ getVersion()
 const goDetail = (id: number) => {
     console.log(id)
     uni.navigateTo({
-        url: `/pages/detail/detail?id=${id}`,
-        data: {
-            id: id
-        }
+        url: `/pages/detail/detail?id=${id}`
     })
 }
 
