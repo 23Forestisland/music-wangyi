@@ -50,6 +50,23 @@ export const getPrivateApi = () =>{
 }
 
 // 歌单详情
+export interface DetailItem{
+    id: number
+    name: string
+    coverImgUrl: string
+    scor: string
+    tags: string[]
+    subscribers: [
+        {
+            nickname: string
+        }
+    ]
+    playCount: number
+}
+export interface DetailRes {
+    code: number
+    playlist: DetailItem
+}
 export const getDetailApi = (id:number) =>{
-    return request<VersionRes>({url:`https://zyxcl.xyz/music/api/playlist/detail?id=${id}`})
+    return request<DetailRes>({url:`https://zyxcl.xyz/music/api/playlist/detail?id=7721496976`})
 }
