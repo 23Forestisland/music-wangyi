@@ -58,16 +58,18 @@ const headList = ref([ '我的播客', '全部分类', '排行榜', '音乐百�
             <view class="tags" v-for="item in  headList" :key="item">{{ item }}</view>
         </view>
     </scroll-view>
-    <swiper class="swiperBox" next-margin="15px" previous-margin="10px">
+    <swiper class="swiperBox" next-margin="20px" previous-margin="20px">
         <swiper-item class="swiperItem" v-for="item in privateList" :key="item.id">
             <view class="swiCount">
-                <image :src="item.picUrl" mode="heightFix" class=""/>
-                <view class="swiText">
-                    <view class="iteTitle">{{ item.name }}</view>
-                    <view class="play">{{ item.playCount / 10000}}万次播放</view>
-                    <view class="count">{{ item.copywriter }}</view>
+                <view class="pad">
+                    <image :src="item.picUrl" mode="heightFix" class=""/>
+                    <view class="swiText">
+                        <view class="iteTitle">{{ item.name }}</view>
+                        <view class="play">{{ item.playCount / 10000}}万次播放</view>
+                        <view class="count">{{ item.copywriter }}</view>
+                    </view>
+                    <i class="iconfont icon-bofang"></i>
                 </view>
-                <i class="iconfont icon-bofang"></i>
             </view>
         </swiper-item>
     </swiper>
@@ -131,18 +133,20 @@ const headList = ref([ '我的播客', '全部分类', '排行榜', '音乐百�
     .swiCount{
         width: 100%;
         height: 100px;
-        background: #f0eced;
         margin-top: 30px;
-        border-radius: 8px;
-        padding: 15px;
-        display: flex;
-        image{
-            height: 100%;
-            width: 70px;
-            background: #f00;
-            border-radius: 5px;
-            margin-right: 10px;
+        padding: 10px;
+        .pad{
+            padding: 15px;
+            display: flex;
+            background: #f0eced;
+            border-radius: 8px;
+            image{
+                width: 75px;
+                height: 75px;
+                margin-right: 10px;
+            }
         }
+       
         .swiText{
             width: 170px;
             height: 70px;
