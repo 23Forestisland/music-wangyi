@@ -16,11 +16,12 @@ onHide(() => {
   padding: 0;
   box-sizing: border-box;
 }
-.discover-music-swiper-wrap{
+.discover-music-swiper-wrap {
   .uni-swiper-dots-horizontal {
     transform: none;
     left: 10%;
   }
+}
 body,html{
   width: 100vw;
   height: 100vh;
