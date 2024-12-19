@@ -1,0 +1,145 @@
+[33mcommit dd4661b8da7f8a697920aca7644a981ef0ea77c1[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m
+Merge: 7b1efa2 91a2c58
+Author: forest <3215819072@qq.com>
+Date:   Wed Dec 18 21:06:14 2024 +0800
+
+    发现2106
+
+[33mcommit 91a2c58db91abbff1bc5228f5d1efa23f1f32ee2[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: huochang <969519288@qq.com>
+Date:   Wed Dec 18 19:40:26 2024 +0800
+
+    合并冲突
+
+[33mcommit 03202f6c074b6eef7e9209d699ca11f41b1b278d[m
+Merge: 0ca5f9c bdcd961
+Author: 张鸿宇 <739185356@qq.com>
+Date:   Wed Dec 18 19:10:53 2024 +0800
+
+    合并操作
+
+[33mcommit 0ca5f9c967e642e9e61dc201f97e9663d7932b73[m[33m ([m[1;31morigin/zhy[m[33m)[m
+Author: 张鸿宇 <739185356@qq.com>
+Date:   Wed Dec 18 19:06:01 2024 +0800
+
+    搜索页历史记录
+
+[33mcommit 7b1efa29f0899733e7f2d3930a4e59d9143aaae6[m
+Author: forest <3215819072@qq.com>
+Date:   Wed Dec 18 15:58:33 2024 +0800
+
+    播客
+
+[33mcommit 8a3c9061f0f5642693bf2effc0c3bd99adc4f36e[m
+Author: 张鸿宇 <739185356@qq.com>
+Date:   Wed Dec 18 10:45:18 2024 +0800
+
+    搜索主页完成
+
+[33mcommit bdcd9615e3fd3b3304f3b6fc58379b0c739d6fd7[m
+Merge: cde8df5 de2c75d
+Author: huochang <969519288@qq.com>
+Date:   Wed Dec 18 10:32:39 2024 +0800
+
+    banner
+
+[33mcommit cde8df5ce1cf5afb90930883dbe7597e862a9afc[m
+Merge: 5267e9a 2a73f24
+Author: huochang <969519288@qq.com>
+Date:   Wed Dec 18 10:23:50 2024 +0800
+
+    拆分发现-音乐页面组件
+
+[33mcommit 104c57ec2cd1e798b5ee922f492301b8239e8d62[m
+Author: 张鸿宇 <739185356@qq.com>
+Date:   Wed Dec 18 08:13:19 2024 +0800
+
+    更新推荐榜单
+
+[33mcommit de2c75d37585a175cdf63bebc105051909d7c249[m
+Merge: 2a73f24 2316f5f
+Author: forest <3215819072@qq.com>
+Date:   Tue Dec 17 23:10:44 2024 +0800
+
+    Merge branch 'lr'
+
+[33mcommit 5267e9ad73dd739a0a462c517cfa7fe7b7028f7e[m
+Author: huochang <969519288@qq.com>
+Date:   Tue Dec 17 22:35:11 2024 +0800
+
+    发现页banner
+
+[33mcommit 2a73f2419827752962bca00000a2e50b8c1ac85b[m
+Author: forest <3215819072@qq.com>
+Date:   Tue Dec 17 22:31:02 2024 +0800
+
+    发现tab切换
+
+[33mcommit 2efac7149a2884cf2263083c69be795e6bea52c9[m
+Author: forest <3215819072@qq.com>
+Date:   Tue Dec 17 22:26:04 2024 +0800
+
+    发现tab切换
+
+[33mcommit 2316f5f45058c9c5b453a57457063a6f4234d385[m
+Author: forest <3215819072@qq.com>
+Date:   Tue Dec 17 22:15:02 2024 +0800
+
+    发现tab切换
+
+[33mcommit 3fbfc3c99b468780c7e21023e9a020129c6b0263[m
+Merge: 354ede4 26ab538
+Author: 张鸿宇 <739185356@qq.com>
+Date:   Tue Dec 17 21:19:33 2024 +0800
+
+    分支修改1
+
+[33mcommit 354ede496b8164fbac30c76751bb240174ad9af8[m
+Author: 张鸿宇 <739185356@qq.com>
+Date:   Tue Dec 17 21:15:54 2024 +0800
+
+    update ignored files
+
+[33mcommit 1c77879cff279ef52c8ecc59d4b71195c777b8f7[m
+Author: 张鸿宇 <739185356@qq.com>
+Date:   Tue Dec 17 21:06:12 2024 +0800
+
+    搜索页准备及其搜索框
+
+[33mcommit 26ab538aeaf7266d850e0f0203612f829d74a39f[m
+Merge: fc2cf79 c9fa2f8
+Author: forest <3215819072@qq.com>
+Date:   Tue Dec 17 17:28:04 2024 +0800
+
+    Merge branch 'lr'
+
+[33mcommit c9fa2f868ae173aaf0bef297bba29c76e74a507d[m
+Author: forest <3215819072@qq.com>
+Date:   Tue Dec 17 17:24:58 2024 +0800
+
+    底部tabBar
+
+[33mcommit fc2cf79e08b9aa467ad0646718f6a9ba742228bd[m
+Merge: 396d078 5809693
+Author: 张鸿宇 <739185356@qq.com>
+Date:   Tue Dec 17 16:47:10 2024 +0800
+
+    合并
+
+[33mcommit 396d078057310331c42fe9dd58aaa030abebf9a9[m
+Author: 张鸿宇 <739185356@qq.com>
+Date:   Tue Dec 17 16:38:18 2024 +0800
+
+    添加接口文件夾
+
+[33mcommit 580969372463c71a22e606868ff767c52999dab7[m
+Author: forest <3215819072@qq.com>
+Date:   Tue Dec 17 16:11:50 2024 +0800
+
+    测试
+
+[33mcommit 6531fa98d0c3d6ecc91f74b16a4e4641b065ddb1[m
+Author: forest <3215819072@qq.com>
+Date:   Tue Dec 17 15:44:43 2024 +0800
+
+    初始化项目

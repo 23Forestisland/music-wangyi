@@ -13,11 +13,67 @@
       "unicode_decimal": 58983
     },
     {
+      "icon_id": "1505660",
+      "name": "排序-降序",
+      "font_class": "paixu-jiangxu",
+      "unicode": "e65f",
+      "unicode_decimal": 58975
+    },
+    {
+      "icon_id": "1505661",
+      "name": "排序-升序",
+      "font_class": "paixu-shengxu",
+      "unicode": "e660",
+      "unicode_decimal": 58976
+    },
+    {
       "icon_id": "1697269",
       "name": "娱乐",
       "font_class": "yule",
       "unicode": "e501",
       "unicode_decimal": 58625
+    },
+    {
+      "icon_id": "1980999",
+      "name": "箭头_右",
+      "font_class": "jiantou",
+      "unicode": "e616",
+      "unicode_decimal": 58902
+    },
+    {
+      "icon_id": "2076218",
+      "name": "播放2",
+      "font_class": "bofang",
+      "unicode": "e87c",
+      "unicode_decimal": 59516
+    },
+    {
+      "icon_id": "2490692",
+      "name": "对勾",
+      "font_class": "duigou",
+      "unicode": "e65b",
+      "unicode_decimal": 58971
+    },
+    {
+      "icon_id": "2815723",
+      "name": "时钟",
+      "font_class": "shizhong",
+      "unicode": "e54c",
+      "unicode_decimal": 58700
+    },
+    {
+      "icon_id": "7594809",
+      "name": "24gl-folderHeart",
+      "font_class": "24gl-folderHeart",
+      "unicode": "eabf",
+      "unicode_decimal": 60095
+    },
+    {
+      "icon_id": "8300818",
+      "name": "返回",
+      "font_class": "fanhui",
+      "unicode": "e604",
+      "unicode_decimal": 58884
     },
     {
       "icon_id": "8721206",
@@ -27,11 +83,32 @@
       "unicode_decimal": 58883
     },
     {
-      "icon_id": "17816845",
+      "icon_id": "16731257",
       "name": "更多",
       "font_class": "gengduo",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    },
+    {
+      "icon_id": "17816845",
+      "name": "更多",
+      "font_class": "gengduo1",
       "unicode": "e502",
       "unicode_decimal": 58626
+    },
+    {
+      "icon_id": "19877121",
+      "name": "保录升学 - 4",
+      "font_class": "zhengpinbaozhang-duigou",
+      "unicode": "e626",
+      "unicode_decimal": 58918
+    },
+    {
+      "icon_id": "24570132",
+      "name": "收藏",
+      "font_class": "shoucang",
+      "unicode": "e611",
+      "unicode_decimal": 58897
     },
     {
       "icon_id": "29219741",
@@ -39,6 +116,13 @@
       "font_class": "play",
       "unicode": "e62c",
       "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "42198932",
+      "name": "folder-5-fill",
+      "font_class": "folder-5-fill",
+      "unicode": "e793",
+      "unicode_decimal": 59283
     }
   ]
 }

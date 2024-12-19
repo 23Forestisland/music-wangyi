@@ -35,6 +35,12 @@
 			"style": {
 				"navigationBarTitleText": "搜索"
 			}
+		},
+		{
+			"path": "pages/detail/detail",
+			"style": {
+				"navigationBarTitleText": "详情"
+			}
 		}
 	],"tabBar": {
     "color": "#333333",
@@ -80,6 +86,7 @@
 		"autoscan": true,
 		"custom": {
 			"^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue"
+		
 		}
 	}
 
