@@ -3,7 +3,7 @@ import { ref, reactive,watch, nextTick} from 'vue'
 import {hotSearchApi,detailListApi} from '../../serviceSearch'
 import type {Dailys,Detail} from '../../serviceSearch'
 import Index from '@/pages/index/index.vue';
-import { onShow } from '@dcloudio/uni-app';
+import { onShow ,onLoad} from '@dcloudio/uni-app';
 
 const hotlist=ref<Dailys[]>([])
 
@@ -51,7 +51,7 @@ const randerList= async()=>{
     
 }
 
-onShow(()=>{
+onLoad(()=>{
     getHotList()
 })
 
@@ -59,7 +59,7 @@ onShow(()=>{
 
 
 
-const changecur=(e)=>{
+const changecur=(e: { detail: { current: number; }; })=>{
     // console.log(e.detail.current) 
     if(e.detail.current<hotlist.value.length-1){
         cur.value=60+'px'

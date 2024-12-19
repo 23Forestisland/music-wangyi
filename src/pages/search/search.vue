@@ -72,7 +72,11 @@ const tapSearch=(value: string)=>{
     search()
 }
 
-
+const goBack=()=>{
+    uni.navigateBack({
+	    delta: 1
+    })
+}
 
 watch([searchValue,isSearch],()=>{
     if(searchValue.value){
@@ -93,7 +97,7 @@ watch([searchValue,isSearch],()=>{
 
 <template>
     <view class="head">
-        <view class="iconfont icon-houtui"></view>
+        <view class="iconfont icon-houtui" @click="goBack"></view>
         <view class="search">
             <uni-search-bar class="uni-mt-10" radius="5" placeholder="请输入搜索内容" clearButton="auto" cancelButton="none" v-model="searchValue" @confirm="search"  />
         </view>

@@ -41,6 +41,12 @@
 			"style": {
 				"navigationBarTitleText": "详情"
 			}
+		},
+		{
+			"path": "pages/player/player",
+			"style": {
+				"navigationBarTitleText": "播放页"
+			}
 		}
 	],"tabBar": {
     "color": "#333333",
