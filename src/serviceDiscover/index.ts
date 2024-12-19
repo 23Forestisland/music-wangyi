@@ -54,7 +54,7 @@ export interface DetailItem{
     id: number
     name: string
     coverImgUrl: string
-    scor: string
+    score: string
     tags: string[]
     subscribers: [
         {
@@ -62,11 +62,21 @@ export interface DetailItem{
         }
     ]
     playCount: number
+    tracks:{
+        id: number
+        name: string
+        al:{
+            id: number
+            picUrl: string
+        }
+    }
 }
 export interface DetailRes {
     code: number
     playlist: DetailItem
 }
 export const getDetailApi = (id:number) =>{
-    return request<DetailRes>({url:`https://zyxcl.xyz/music/api/playlist/detail?id=7721496976`})
+    return request<DetailRes>({url:`https://zyxcl.xyz/music/api/playlist/detail`,data:{
+        id
+    }})
 }
