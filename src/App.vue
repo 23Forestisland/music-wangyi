@@ -27,5 +27,4 @@ body,html{
   overflow: hidden;
   background: #f8f9fd;
 }
-}
 </style>
