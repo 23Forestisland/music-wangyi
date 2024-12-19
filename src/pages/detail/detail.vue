@@ -20,7 +20,7 @@ const getDetail = async() =>{
         const res = await getDetailApi(query.value)
         console.log(res)
         detailList.value = res.playlist
-        plCont.value = Math.floor(res.playlist.playCount / 10000)
+        plCont.value = res.playlist.playCount / 10000
     }catch(e){
         console.log(e)
     }
@@ -61,7 +61,7 @@ const navList = ref(['声音','评论','推荐'])
             </view>
         </view>
         <view class="button">
-            <view class="collect"><i class="iconfont icon-folder-5-fill"></i>{{ plCont}}.0万收藏</view>
+            <view class="collect"><i class="iconfont icon-folder-5-fill"></i>{{ plCont.toFixed(1) }}万收藏</view>
             <view class="latest"><i class="iconfont icon-bofang"></i>最新单集</view>
         </view>
     </view>

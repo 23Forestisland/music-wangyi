@@ -30,6 +30,7 @@ const getVersion = async() =>{
     try{
         const res = await getVersionApi()
         versionList.value = res.djRadios
+        console.log(res.djRadios)
     }catch(e){
         console.log(e)
     }
@@ -56,13 +57,14 @@ const headList = ref([ '我的播客', '全部分类', '排行榜', '音乐百�
         </view>
     </scroll-view>
     <swiper class="swiperBox" next-margin="20px" previous-margin="20px">
-        <swiper-item class="swiperItem" v-for="item in privateList" :key="item.id">
+        <swiper-item class="swiperItem" v-for="item in privateList" :key="item.id"
+        >
             <view class="swiCount">
                <view class="pad">
                     <image :src="item.picUrl" mode="heightFix" class=""/>
                     <view class="swiText">
                         <view class="iteTitle">{{ item.name }}</view>
-                        <view class="play">{{ item.playCount / 10000}}万次播放</view>
+                        <view class="play">{{ (item.playCount / 10000).toFixed(1) }}万次播放</view>
                         <view class="count">{{ item.copywriter }}</view>
                     </view>
                     <i class="iconfont icon-bofang"></i>
@@ -88,8 +90,11 @@ const headList = ref([ '我的播客', '全部分类', '排行榜', '音乐百�
     <view class="constant">
         <view>你常听的创作翻唱</view>
         <swiper class="contSwiper" display-multiple-items="3">
-            <swiper-item v-for="item in versionList" :key="item.id">
-                <view>
+            <swiper-item v-for="item in versionList" :key="item.id" 
+                @click="goDetail(item.id)"
+            >
+                <view class="picItem">
+                    <i class="iconfont icon-24gf-headphones"><span>{{ (item.subCount / 10000).toFixed(1) }}万</span></i>
                     <image :src="item.picUrl" mode="widthFix" />
                     <view class="picText">{{ item.name }}</view>
                 </view>
@@ -235,5 +240,18 @@ const headList = ref([ '我的播客', '全部分类', '排行榜', '音乐百�
         border-radius: 8px;
     }
 }
-
+.picItem{
+    position: relative;
+    .icon-24gf-headphones{
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        color: #fff;
+        z-index: 3;
+        span{
+            font-size: 12px;
+            margin-left: 5px;
+        }
+    }
+}
 </style>

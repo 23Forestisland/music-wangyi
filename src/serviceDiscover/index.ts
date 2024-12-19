@@ -23,6 +23,7 @@ export interface PodcastItem{
     picUrl: string
     playCount: number
     copywriter: string
+    subCount: number
 }
 export interface PodcastRes {
     code: number
