@@ -61,7 +61,7 @@ const headList = ref([ '我的播客', '全部分类', '排行榜', '音乐百�
     <swiper class="swiperBox" next-margin="20px" previous-margin="20px">
         <swiper-item class="swiperItem" v-for="item in privateList" :key="item.id">
             <view class="swiCount">
-                <view class="pad">
+               <view class="pad">
                     <image :src="item.picUrl" mode="heightFix" class=""/>
                     <view class="swiText">
                         <view class="iteTitle">{{ item.name }}</view>
@@ -69,7 +69,7 @@ const headList = ref([ '我的播客', '全部分类', '排行榜', '音乐百�
                         <view class="count">{{ item.copywriter }}</view>
                     </view>
                     <i class="iconfont icon-bofang"></i>
-                </view>
+               </view>
             </view>
         </swiper-item>
     </swiper>
@@ -134,19 +134,20 @@ const headList = ref([ '我的播客', '全部分类', '排行榜', '音乐百�
         width: 100%;
         height: 100px;
         margin-top: 30px;
-        padding: 10px;
+        padding: 8px;
         .pad{
             padding: 15px;
             display: flex;
             background: #f0eced;
             border-radius: 8px;
-            image{
-                width: 75px;
-                height: 75px;
-                margin-right: 10px;
-            }
         }
-       
+        image{
+            height: 70px;
+            width: 70px;
+            background: #f00;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
         .swiText{
             width: 170px;
             height: 70px;
