@@ -1,5 +1,5 @@
 <script lang='ts' setup >
-import { ref, reactive,watch,onMounted, nextTick,watchEffect} from 'vue'
+import { ref, reactive,watch,computed} from 'vue'
 import { onLoad } from "@dcloudio/uni-app";
 import {songApi,albumApi} from '../serviceSearch'
 import type {SongInfo} from '../serviceSearch'
@@ -13,7 +13,7 @@ interface query{
 
 const  query=ref<query>()
 const pic=ref<string>()
-const songInfo=ref<SongInfo>()
+const songInfo=ref<SongInfo[]>([])
 const innerAudioContext = uni.createInnerAudioContext();
 const play=ref<boolean>(false)
 const scroll=ref<boolean>(false)
@@ -21,6 +21,8 @@ const curTm=ref<string>()
 const dotleft=ref<string>()
 const rot=ref<number>(0)
 const rot2=ref<number>()
+const songnumb=ref<number>(0)
+let   totalTime=ref<string>()
 let timer:any
 let tm:number
 
@@ -39,11 +41,7 @@ const getSong= async ()=>{
     try{
         const res=await songApi(query.value?.id as number)
         
-        songInfo.value={
-            id:res.data[0].id,
-            url:res.data[0].url,
-            time:'0'
-        }
+        songInfo.value=res.data
         // console.log(res)
     }catch(e){
         console.log(e)
@@ -117,13 +115,31 @@ innerAudioContext.onCanplay(()=>{
     // console.log(innerAudioContext.duration)
     tm=parseInt(innerAudioContext.duration)
     let sec=tm%60<10?'0'+tm%60:tm%60
-    songInfo.value!.time=Math.floor(tm/60) + ':'+sec
+    totalTime.value=Math.floor(tm/60) + ':'+sec
     
 })
 // onMounted(()=>{
 //     console.log(songInfo.value)
 
 // })
+
+const priveSong=()=>{
+    if(songnumb.value!==0){
+        songnumb.value-=1
+    }
+}
+
+const nextSong=()=>{
+    if(songnumb.value<songInfo.value.length){
+        songnumb.value+=1
+    }
+}
+
+const playSong=computed(()=>{
+    return  songInfo.value[songnumb.value]
+})
+    
+
 watch(scroll,()=>{
     if(scroll.value){
         rot2.value=-30
@@ -138,7 +154,7 @@ watch(()=>query.value?.id,()=>{
 })
 
 watch(()=>songInfo.value,()=>{
-    innerAudioContext.src = songInfo.value!.url
+    innerAudioContext.src = playSong.value.url
 },{once:true})
 
 </script>
@@ -181,14 +197,14 @@ watch(()=>songInfo.value,()=>{
                     <view class="prsinfo">
                         <view> {{curTm}}</view>
                         <view>极高</view>
-                        <view> {{songInfo?.time}}</view>
+                        <view> {{totalTime}}</view>
                     </view>
                     <view class="control">
                         <view class="iconfont icon-shunxubofang"></view>
                         <view class="cen-ctrl">
-                            <view class="iconfont icon-shangyishou1"></view>
+                            <view class="iconfont icon-shangyishou1" @click="priveSong"></view>
                             <view class="play-stop iconfont " :class="[scroll?'icon-bofang':'icon-zanting1']" @click="openplay"></view>
-                            <view class="iconfont icon-xiayishou"></view>
+                            <view class="iconfont icon-xiayishou" @click="nextSong"></view>
                         </view>
                         <view class="iconfont icon-bofangliebiao1"></view>
                     </view>
