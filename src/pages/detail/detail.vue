@@ -2,21 +2,32 @@
 import { ref, reactive} from 'vue'
 import { getDetailApi } from '../../serviceDiscover'
 import { onLoad } from '@dcloudio/uni-app';
+import type { DetailItem } from '../../serviceDiscover'
 
-const id = ref()
-onLoad((options:any) => {
-    id.value = Number(options.id)
-    console.log(options.id)
-})
+const id = ref(5019223500)
+// onLoad((options:any) => {
+//     id.value = Number(options.id)
+//     console.log(options.id)
+// })
+const detailList = ref<DetailItem>()
+const plCont = ref(0)
 const getDetail = async() =>{
     try{
         const res = await getDetailApi(id.value)
-        console.log(res)
+        console.log(res.playlist)
+        detailList.value = res.playlist
+        plCont.value = Math.floor(res.playlist.playCount / 10000)
     }catch(e){
         console.log(e)
     }
 }
 getDetail()
+
+const goSearch = () => {
+    uni.navigateTo({
+        url: '/pages/search/search'
+    })
+}
 
 </script>
 
@@ -25,22 +36,23 @@ getDetail()
     <view class="bg">
         <view class="header">
             <i class="iconfont icon-fanhui"></i>
-            <i class="iconfont icon-sousuo"></i>
+            <i class="iconfont icon-sousuo" @click="goSearch"></i>
             <i class="iconfont icon-gengduo"></i>
         </view>
         <view class="img">
-            <image src="" mode="widthFix" ></image>
-            <view >
-                <view class="imgTitle">内容</view>
-                <view>内容</view>
+            <image :src="detailList?.coverImgUrl" mode="widthFix" ></image>
+            <view class="imgText">
+                <view class="imgTitle">{{ detailList?.name }}</view>
+                <view>{{ detailList?.subscribers[0].nickname}}<i class="iconfont icon-jiantou"></i></view>
             </view>
         </view>
         <view class="button">
-            <view class="collect"><i class="iconfont icon-folder-5-fill"></i>{{  }}万收藏</view>
+            <view class="collect"><i class="iconfont icon-folder-5-fill"></i>{{ plCont}}.0万收藏</view>
             <view class="latest"><i class="iconfont icon-bofang"></i>最新单集</view>
         </view>
     </view>
     <view class="content">
+        <view class="nav"></view>
 
     </view>
   </view>
@@ -87,17 +99,27 @@ getDetail()
 .img{
     display: flex;
     margin-bottom: 15px;
-    color: #ddd;
+    color: #bbb;
     image{
-        width: 100px;
-        height: 100px;
+        width: 110px;
+        height: 110px;
         background: #fff;
         margin-right: 15px;
         border-radius: 5px;
+        flex-shrink: 0;
+    }
+    .imgText{
+        flex: 1;
+        font-size: 14px;
     }
     .imgTitle{
-        font-size: 18px;
+        width: 80%;
+        font-size: 16px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         color: #fff;
+        margin-bottom: 10px;
     }
 }
 .button{
