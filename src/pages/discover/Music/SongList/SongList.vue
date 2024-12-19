@@ -1,14 +1,31 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
-const musicList = ref([]);
+import { getSongListApi, type SongListItem } from '../../../service/index';
+const musicList = ref<SongListItem[]>([]);
 
-uni.request({
-    url: 'https://zyxcl.xyz/music/api/personalized',
-    success: (res) => {
-        console.log("res===", res.data.result);
-        musicList.value = res.data.result
-    }
-});
+getSongListApi()
+    .then((res) => {
+        musicList.value = res.result;
+    })
+
+
+// 处理数字展示千/万单位
+const formatNumber = (num: number): string | number => {
+  let formattedNum;
+
+  if (num >= 10000) {
+    // 金额大于等于1万时，转换为“万”为单位，保留一位小数
+    formattedNum = (num / 10000).toFixed(1) + '万';
+  } else if (num >= 1000) {
+    // 金额大于等于1千，小于1万时，显示为“千”
+    formattedNum = (num / 1000).toFixed(0) + '千';
+  } else {
+    // 金额小于1千，直接显示原金额
+    formattedNum = num;
+  }
+
+  return formattedNum;
+}
 </script>
 
 <template>
@@ -22,11 +39,16 @@ uni.request({
             <scroll_view class="song_scroll_view" scroll_x>
                 <view class="items">
                     <view class="song_scroll_view_item" v-for="item in musicList" id="item.id" :key="item.id">
+                        <view class="headphones-icon">
+                            <i class="iconfont icon-24gf-headphones"></i>
+                            <text>{{ formatNumber(item.playCount) }}</text>
+                        </view>
                         <image :src="item.picUrl"/>
+                        <view class="bofang-icon">
+                            <i class="iconfont icon-bofang"></i>
+                        </view>
                         <view class="music_list_desc">
-                            <text class="text-desc">
-                                {{ item.name }}
-                            </text>
+                            <text class="text-desc">{{ item.name }}</text>
                         </view>
                     </view>
                 </view>
@@ -62,20 +84,38 @@ uni.request({
                         height: 300rpx;
                         margin-right: 20rpx;
                         flex-shrink: 0;
+                        position: relative;
                         image {
                             width: 200rpx;
                             height: 200rpx;
                             border-radius: 5px;
                         }
-                        .music_list_desc {
-                            .text-desc {
-                                width: 200rpx;
-                                font-size: 28rpx;
-                                display: -webkit-box;
-                                -webkit-box-orient: vertical;
-                                -webkit-line-clamp: 2;
-                                overflow: hidden;
+                        .text-desc {
+                            width: 200rpx;
+                            font-size: 28rpx;
+                            display: -webkit-box;
+                            -webkit-box-orient: vertical;
+                            -webkit-line-clamp: 2;
+                            overflow: hidden;
+                        }
+                        .headphones-icon {
+                            position: absolute;
+                            top: 10px;
+                            left: 10px;
+                            z-index: 1;
+                            color: #fff;
+                            font-weight: bolder;
+                            font-size: 12px;
+                            .icon-24gf-headphones {
+                                margin-right: 5px;
                             }
+                        }
+                        .icon-bofang {
+                            color: #fff;
+                            position: absolute;
+                            bottom: 55px;
+                            right: 10px;
+                            font-size: 22px;
                         }
                     }
             }
