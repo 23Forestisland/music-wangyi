@@ -10,7 +10,7 @@ interface RequestParams {
 
 type ReponseType<T = AnyObject> = Omit<UniApp.RequestSuccessCallbackResult, 'data'> & { data: T };
 
-const request = <T>({ 
+const request1 = <T>({ 
     url,
     method = 'GET',
     data = {},
@@ -31,4 +31,4 @@ const request = <T>({
 }
 
 
-export default request;
+export default request1;
