@@ -35,6 +35,10 @@ getDetail()
                 <view>内容</view>
             </view>
         </view>
+        <view class="button">
+            <view class="collect"><i class="iconfont icon-folder-5-fill"></i>{{  }}万收藏</view>
+            <view class="latest"><i class="iconfont icon-bofang"></i>最新单集</view>
+        </view>
     </view>
     <view class="content">
 
@@ -94,6 +98,40 @@ getDetail()
     .imgTitle{
         font-size: 18px;
         color: #fff;
+    }
+}
+.button{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .collect{
+        width: 130px;
+        height: 40px;
+        background: #fff;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        i{
+            margin-right: 5px;
+            font-size: 18px;
+        }
+    }
+    .latest{
+        width: 200px;
+        height: 40px;
+        background: #fd3b3b;
+        border-radius: 20px;
+        font-size: 14px;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        i{
+            margin-right: 5px;
+            font-size: 18px;
+        }
     }
 }
 </style>
