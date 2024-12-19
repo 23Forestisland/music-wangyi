@@ -2,7 +2,7 @@ interface requestParams{
     url: string
 }
 
-export const request = <T>({ url }: requestParams) => {
+export const bannerRequest = <T>({ url }: requestParams) => {
     return new Promise<T>((resolve, reject) => {
         uni.request({
             url,
@@ -14,25 +14,30 @@ export const request = <T>({ url }: requestParams) => {
     })
 }
 
-
-
 export interface BannerItem{
     imageUrl: string,
     targetId: number
 }
-export interface BannerRes{
-    code: number,
-    banners: BannerItem[];
+export interface SongListItem{
+    id: number,
+    name: string,
+    picUrl: string,
+    playCount: number
 }
+export interface Res<K, V>{
+    code: number,
+    K: V[]
+}
+
 
 // 获取banner图列表接口
 export const getBannerApi = () => {
     const url = 'https://zyxcl.xyz/music/api/banner';
-    return request<BannerRes>({ url });
+    return bannerRequest<Res<'banners', BannerItem>>({ url });
 }
 
 // 获取甄选歌单接口
-// export const getZhenxuanMusicListApi = () => {
-//     const url = 'https://zyxcl.xyz/music/api/personalized';
-
-// }
+export const getSongListApi = () => {
+    const url = 'https://zyxcl.xyz/music/api/personalized';
+    return bannerRequest<Res<'result', SongListItem>>({ url });
+}

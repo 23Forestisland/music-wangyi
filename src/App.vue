@@ -28,4 +28,8 @@ body,html{
   overflow: hidden;
   background: #f8f9fd;
 }
+/* 隐藏scroll-view滚动条 */
+::-webkit-scrollbar{
+  display: none;
+}
 </style>
