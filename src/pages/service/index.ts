@@ -14,6 +14,8 @@ export const request = <T>({ url }: requestParams) => {
     })
 }
 
+
+
 export interface BannerItem{
     imageUrl: string,
     targetId: number
@@ -28,3 +30,9 @@ export const getBannerApi = () => {
     const url = 'https://zyxcl.xyz/music/api/banner';
     return request<BannerRes>({ url });
 }
+
+// 获取甄选歌单接口
+// export const getZhenxuanMusicListApi = () => {
+//     const url = 'https://zyxcl.xyz/music/api/personalized';
+
+// }
