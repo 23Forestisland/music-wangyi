@@ -17,7 +17,6 @@ const getDay = async() =>{
     try{
         flag.value = true
         const res = await getDayApi()
-        console.log(res)
         dayList.value = res.recommend
     }catch(e){
         console.log(e)

@@ -113,6 +113,36 @@ export const getReviewApi = (id:number) =>{
 }
 
 // vip成长值
-export const getGrowupApi = () =>{
-    return request({url:'https://zyxcl.xyz/music/api/vip/growthpoint'})
+interface GrowupItem{
+    accountPageIconImgUrl: string
+    backgroundImageUrl: string
 }
+interface GrowupRes{
+    code: number
+    data: {
+        levelCard: GrowupItem
+        taskList:[
+            {
+                seqName: string
+                taskItems: [
+                    {
+                        action: string
+                        iconUrl: string
+                    }
+                ]
+            }
+
+        ]
+    }
+}
+
+export const getGrowupApi = () =>{
+    return request<GrowupRes>({url:'https://zyxcl.xyz/music/api/vip/growthpoint'})
+}
+export const getQuestApi = () =>{
+    return request<GrowupRes>({url:'https://zyxcl.xyz/music/api/vip/tasks'})
+}
+
+// 独家放送
+// /personalized/privatecontent
+// /yunbei 
