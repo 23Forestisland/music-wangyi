@@ -1,6 +1,6 @@
 <script lang='ts' setup >
 import { ref, reactive} from 'vue'
-import { getGrowupApi, getQuestApi } from '../serviceDiscover'
+import { getGrowupApi, getQuestApi, getExclusiveApi } from '../serviceDiscover'
 
 const img = ref()
 const quest = ref()
@@ -8,10 +8,10 @@ const getGrowup = async () => {
     try{
         const res = await getGrowupApi()
         const rew = await getQuestApi()
-        console.log(rew);
+        const ree = await getExclusiveApi()
+        console.log(ree);
         img.value = res.data.levelCard.accountPageIconImgUrl
         quest.value = rew.data.taskList[0]
-        console.log(quest.value);
     }catch(e){
         console.log(e);
     }
@@ -21,7 +21,7 @@ getGrowup()
 </script>
 
 <template>
-  <view class="box">
+  <scroll-view class="box">
     <view class="header">
         <view class="avatar">
             <image src="" />
@@ -45,7 +45,9 @@ getGrowup()
             <view>超多人都在玩<i class="iconfont icon-jiantou"></i></view>
         </view>
     </view>
-  </view>
+    <view class="oneList"></view>
+    <view class="twoList"></view>
+  </scroll-view>
 </template>
 
 <style lang='scss' scoped>
@@ -133,5 +135,18 @@ getGrowup()
         padding: 0 15px;
         color: #999;
     }
+}
+.oneList{
+    width: 100%;
+    height: 200px;
+    background: #fff;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+.twoList{
+    width: 100%;
+    height: 200px;
+    background: #fff;
+    border-radius: 10px;
 }
 </style>

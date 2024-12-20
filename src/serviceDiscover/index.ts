@@ -142,7 +142,28 @@ export const getGrowupApi = () =>{
 export const getQuestApi = () =>{
     return request<GrowupRes>({url:'https://zyxcl.xyz/music/api/vip/tasks'})
 }
-
 // 独家放送
-// /personalized/privatecontent
-// /yunbei 
+export const getExclusiveApi = () =>{
+    return request<GrowupRes>({url:'https://zyxcl.xyz/music/api/yunbei/rcmd/song?id=65528'})
+}
+
+// 热门榜单
+// export const getHotApi = () =>{
+//     return request({url:'https://zyxcl.xyz/music/api/homepage/block/page'})
+// }
+// 歌曲类型标签
+// /playlist/highquality/tags
+
+// 发送验证码
+export const getCodeApi = (phone:string) =>{
+    return request({url:'https://zyxcl.xyz/music/api/captcha/sent',data:{
+        phone
+    }})
+}
+// 登录验证码
+export const getHotApi = (phone:number, captcha: number) =>{
+    return request({url:'https://zyxcl.xyz/music/api/captcha/verify',data:{
+        phone,
+        captcha
+    }})
+}

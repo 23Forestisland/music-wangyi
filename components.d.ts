@@ -9,5 +9,9 @@ declare module 'vue' {
   export interface GlobalComponents {
     More: typeof import('./src/components/More.vue')['default']
     SongListDtail: typeof import('./src/components/songListDtail.vue')['default']
+    WdButton: typeof import('wot-design-uni/components/wd-button/wd-button.vue')['default']
+    WdCellGroup: typeof import('wot-design-uni/components/wd-cell-group/wd-cell-group.vue')['default']
+    WdForm: typeof import('wot-design-uni/components/wd-form/wd-form.vue')['default']
+    WdInput: typeof import('wot-design-uni/components/wd-input/wd-input.vue')['default']
   }
 }

@@ -54,7 +54,6 @@ const showLeftFn = () => {
         <i class="iconfont icon-maikefeng"></i>
     </view>
     <scroll-view class="content" scroll-y>
-        
         <swiper class="swiperBox" next-margin="50px" display-multiple-items="2">
             <swiper-item v-for="item in dayList" :key="item.id">
                 <view class="swiperItem">
@@ -64,6 +63,42 @@ const showLeftFn = () => {
                 </view>
             </swiper-item>
         </swiper>
+        <view class="hot">
+            <view class="rapTitle">说唱 | 电子 | 摇滚 热门榜单</view>
+            <swiper next-margin="25px">
+                <swiper-item>
+                    <view class="rapItem">
+                        <view class="imgBox">
+                            <view class="img">
+                                <image src="" mode="widthFix" />
+                            </view>
+                            <view></view>
+                            <i></i>
+                        </view>
+                        <view class="imgBox">
+                            <view class="img">
+                                <image src="" mode="widthFix" />
+                            </view>
+                            <view></view>
+                            <i></i>
+                        </view>
+                        <view class="imgBox">
+                            <view class="img">
+                                <image src="" mode="widthFix" />
+                            </view>
+                            <view></view>
+                            <i></i>
+                        </view>
+                    </view>
+                </swiper-item>
+                <swiper-item>
+                    <view class="rapItem">2</view>
+                </swiper-item>
+                <swiper-item>
+                    <view class="rapItem">3</view>
+                </swiper-item>
+            </swiper>
+        </view>
     </scroll-view>
     <!-- 左侧抽屉 -->
     <uni-drawer ref="showLeft" mode="left" :width="320" >
@@ -151,4 +186,35 @@ const showLeftFn = () => {
 ::v-deep .uni-drawer__content--visible{
     background: #f8f9fd;
 }
+.hot{
+    height: 220px;
+    width: 100%;
+    background: #ddd;
+    .rapTitle{
+        margin-top: 15px;
+        font-size: 15px;
+        padding-top: 10px;
+    }
+    uni-swiper{
+        height: 100%;
+    }
+    .rapItem{
+        background: #fff;
+        padding-left: 15px;
+        height: 100%;
+        width: 100%;
+        .imgBox{
+            margin: 10px 0;
+        }
+        .img{
+            width: 100rpx;
+            height: 100rpx;
+            background: #ddd;
+        }
+        image{
+            width: 100%;
+        }
+    }
+}
+
 </style>
