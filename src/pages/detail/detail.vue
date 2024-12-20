@@ -44,6 +44,15 @@ const getReview = async() =>{
     }
 }
 
+// 返回上一个页面
+const goBack = () => {
+    uni.navigateBack({
+        delta: 1,
+        animationType: 'pop-out',
+        animationDuration: 200
+    });
+}
+
 
 const goSearch = () => {
     uni.navigateTo({
@@ -63,7 +72,7 @@ const navList = ref(['声音','评论','推荐'])
     </view>
     <view class="bg">
         <view class="header">
-            <i class="iconfont icon-fanhui"></i>
+            <i class="iconfont icon-fanhui" @click="goBack"></i>
             <i class="iconfont icon-sousuo" @click="goSearch"></i>
             <i class="iconfont icon-gengduoxiao"></i>
         </view>
