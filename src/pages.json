@@ -49,17 +49,18 @@
 			}
 		},
 		{
-<<<<<<< HEAD
 			"path": "pages/login/login",
 			"style": {
 				"navigationBarTitleText": "登录"
-=======
+			}
+		},
+		{
 			"path": "pages/songListDetail/songListDetail",
 			"style": {
-				"navigationBarTitleText": "歌单详情"
->>>>>>> 0c0acb1723c763fffcc8a97284e7dc2ee64c0017
+				"navigationBarTitleText": "注册"
 			}
 		}
+		
 	],"tabBar": {
     "color": "#333333",
     "selectedColor": "#c84341",
