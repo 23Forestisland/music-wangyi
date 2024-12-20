@@ -46,7 +46,9 @@ onPageScroll((res)=> {
 </template>
 
 <style lang='scss' scoped>
-
+body{
+    overflow:scroll
+}
 // 滚动播放文字
 .scrolling-text {
     position: relative;
