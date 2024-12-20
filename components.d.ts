@@ -8,6 +8,5 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     More: typeof import('./src/components/More.vue')['default']
-    SongListDtail: typeof import('./src/components/songListDtail.vue')['default']
   }
 }
