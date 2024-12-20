@@ -47,6 +47,12 @@
 			"style": {
 				"navigationBarTitleText": "播放页"
 			}
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "登录"
+			}
 		}
 	],"tabBar": {
     "color": "#333333",

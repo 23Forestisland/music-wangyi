@@ -18,7 +18,7 @@ const suggestList=ref<SearchSuggestItem[]>([])
 const store=useStore()
 let timer: number
 
-
+const flag = ref(false)
 enum ListType {
     DEFAULT = 0,
     relevant=1,
@@ -27,6 +27,7 @@ enum ListType {
 
 const getSuggestList= async ( val:string)=>{
     try{
+        flag.value = true
         const res=await suggestApi(val)
         console.log(res)
         suggestList.value = res.result.allMatch
@@ -96,6 +97,12 @@ watch([searchValue,isSearch],()=>{
 </script>
 
 <template>
+    <view class="loading" v-if="flag">
+        <uni-load-more status="loading" 
+            iconType="circle" 
+            color="#fff"
+        ></uni-load-more>
+    </view>
     <view class="head">
         <view class="iconfont icon-houtui" @click="goBack"></view>
         <view class="search">
@@ -143,6 +150,17 @@ watch([searchValue,isSearch],()=>{
 </template>
 
 <style lang='scss' scoped>
+    .loading{
+        width: 250rpx;
+        height: 100rpx;
+        background: rgba(0,0,0,.2);
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+        border-radius: 5px;
+        z-index: 99;
+    }
     .head{
         width: 100%;
         height: 40px;
