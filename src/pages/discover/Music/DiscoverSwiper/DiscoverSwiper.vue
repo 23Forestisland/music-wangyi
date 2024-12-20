@@ -8,6 +8,10 @@ getBannerApi()
     .then((res) => {
         bannerList.value = res.banners;
     })
+
+function handleClick() {
+    console.log('点击');
+}
 </script>
 
 <template>
@@ -21,7 +25,8 @@ getBannerApi()
             circular
         >
             <swiper-item class="swiper-item" v-for="item in bannerList" :key="item.targetId">
-                <image mode="widthFix" :src="item.imageUrl"/>
+                <image mode="widthFix" :src="item.imageUrl" @click="handleClick()"/>
+                <text class="item-type">{{ item.typeTitle }}</text>
             </swiper-item>
         </swiper>
     </view>
@@ -35,9 +40,21 @@ getBannerApi()
         height: 248rpx;
         .swiper-item {
             padding: 0 40rpx;
+            position: relative;
             image {
                 width: 100%;
                 border-radius: 10px;
+            }
+            .item-type {
+                background: #fff;
+                position: absolute;
+                bottom: 10rpx;
+                right: 50rpx;
+                font-size: 20rpx;
+                padding: 4rpx;
+                border-radius: 10rpx;
+                font-weight: bold;
+                color: #202720;
             }
         }
     }

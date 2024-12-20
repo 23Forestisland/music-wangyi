@@ -32,4 +32,15 @@ body,html{
 ::-webkit-scrollbar{
   display: none;
 }
+.new-song-swiper {
+  .uni-list-chat__content-title {
+    font-size: 24rpx;
+    font-weight: bolder;
+    color: #674f56;
+  }
+  .uni-list-chat__content-note {
+    font-size: 20rpx;
+    color: #8F7C82;
+  }
+}
 </style>

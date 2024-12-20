@@ -1,11 +1,13 @@
 interface requestParams{
-    url: string
+    url: string,
+    data?: object
 }
 
-export const bannerRequest = <T>({ url }: requestParams) => {
+export const bannerRequest = <T>({ url, data }: requestParams) => {
     return new Promise<T>((resolve, reject) => {
         uni.request({
             url,
+            data,
             success: (res) => {
                 resolve(res.data as T)
             },
@@ -27,6 +29,15 @@ export interface SongListItem{
 export interface Res<K, V>{
     code: number,
     K: V[]
+}
+
+export interface BlocksItem{
+    blocks: []
+}
+
+export interface HomePageRes{
+    code: number,
+    data: BlocksItem
 }
 
 
@@ -55,5 +66,14 @@ export const getRecommendApi = () => {
 // 获取甄选歌单接口
 export const getSongListApi = () => {
     const url = 'https://zyxcl.xyz/music/api/personalized';
-    return bannerRequest<Res<'result', SongListItem>>({ url });
+    const data = {
+        limit: 6
+    };
+    return bannerRequest<Res<'result', SongListItem>>({ url, data });
 }
+
+// 获取首页发现-新歌新碟接口
+export const getHomePageApi = () => {
+    const url = 'https://zyxcl.xyz/music/api/homepage/block/page';
+    return bannerRequest<HomePageRes>({ url });
+};
