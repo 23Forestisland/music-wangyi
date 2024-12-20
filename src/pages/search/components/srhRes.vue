@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive} from 'vue'
+import { ref, reactive,} from 'vue'
 import type{SearchResultItem} from '../../serviceSearch'
 
 interface Props{
@@ -8,11 +8,19 @@ interface Props{
 }
 
 const props=defineProps<Props>()
+
+
+const goplay=(id:number,albumId:number,name:string,art:string)=>{
+    uni.navigateTo({
+	    url: `/pages/player/player?id=${id}&albumId=${albumId}&name=${name}&art=${art}`
+    })
+}
+
 </script>
 
 <template>
     <view class="srhRestList" >
-        <view v-for="item in props.list" :key="item.id" class="item">
+        <view v-for="(item,index) in props.list" :key="item.id" class="item" @click="goplay(item.id,item.album.id,item.name ,item.artists.map((it)=>{return it.name}).join('/'))">
             <view class="left">
                 <view class="name">{{ item.name }}</view>
                 <view class="art">{{ item.artists.map((it)=>{return it.name}).join('/') }} - {{ item.album.name }}</view>

@@ -23,6 +23,7 @@ export interface PodcastItem{
     picUrl: string
     playCount: number
     copywriter: string
+    subCount?: number
 }
 export interface PodcastRes {
     code: number
@@ -50,6 +51,68 @@ export const getPrivateApi = () =>{
 }
 
 // 歌单详情
+export interface DetailItem{
+    id: number
+    name: string
+    coverImgUrl: string
+    score: string
+    tags: string[]
+    subscribers: [
+        {
+            nickname: string
+        }
+    ]
+    playCount: number
+    tracks:{
+        id: number
+        name: string
+        al:{
+            id: number
+            picUrl: string
+            pic: number
+        }
+        ar:{
+            id: number
+            name: string
+        }
+    }
+}
+export interface DetailRes {
+    code: number
+    playlist: DetailItem
+}
 export const getDetailApi = (id:number) =>{
-    return request<VersionRes>({url:`https://zyxcl.xyz/music/api/playlist/detail?id=${id}`})
+    return request<DetailRes>({url:`https://zyxcl.xyz/music/api/playlist/detail`,data:{
+        id
+    }})
+}
+
+//每日推荐
+export const getDayApi = () =>{
+    return request<PodcastRes>({url:'https://zyxcl.xyz/music/api/recommend/resource'})
+}
+
+// 歌单评论
+export interface ReviewItem{
+    commentId: number
+    user: {
+        nickname: string
+        avatarUrl: string
+    }
+    timeStr: string
+    content: string
+}
+export interface ReviewRes {
+    code: number
+    comments: ReviewItem[]
+}
+export const getReviewApi = (id:number) =>{
+    return request<ReviewRes>({url:`https://zyxcl.xyz/music/api/comment/playlist`,data:{
+        id
+    }})
+}
+
+// vip成长值
+export const getGrowupApi = () =>{
+    return request({url:'https://zyxcl.xyz/music/api/vip/growthpoint'})
 }

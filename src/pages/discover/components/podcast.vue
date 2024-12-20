@@ -4,12 +4,17 @@ import { getPodcastApi, getVersionApi, getPrivateApi } from '../../../serviceDis
 import type { PodcastItem } from '../../../serviceDiscover'
 
 const privateList = ref<PodcastItem[]>([])
+let status = ref('loading')
+const flag = ref(false)
 const getPrivate = async () => {
     try{
+        flag.value = true
         const res = await getPrivateApi()
         privateList.value = res.djRadios
     }catch(e){
         console.log(e)
+    }finally{
+        flag.value = false
     }
 }
 getPrivate()
@@ -30,6 +35,7 @@ const getVersion = async() =>{
     try{
         const res = await getVersionApi()
         versionList.value = res.djRadios
+        console.log(res.djRadios)
     }catch(e){
         console.log(e)
     }
@@ -39,10 +45,7 @@ getVersion()
 const goDetail = (id: number) => {
     console.log(id)
     uni.navigateTo({
-        url: `/pages/detail/detail?id=${id}`,
-        data: {
-            id: id
-        }
+        url: `/pages/detail/detail?id=${id}`
     })
 }
 
@@ -53,19 +56,26 @@ const headList = ref([ '我的播客', '全部分类', '排行榜', '音乐百�
 
 <template>
  <view>
+    <view class="loading" v-if="flag">
+        <uni-load-more :status="status" 
+            iconType="circle" 
+            color="#fff"
+        ></uni-load-more>
+    </view>
     <scroll-view class="header" scroll-x>
         <view class="headItem">
             <view class="tags" v-for="item in  headList" :key="item">{{ item }}</view>
         </view>
     </scroll-view>
     <swiper class="swiperBox" next-margin="20px" previous-margin="20px">
-        <swiper-item class="swiperItem" v-for="item in privateList" :key="item.id">
+        <swiper-item class="swiperItem" v-for="item in privateList" :key="item.id"
+        >
             <view class="swiCount">
                <view class="pad">
                     <image :src="item.picUrl" mode="heightFix" class=""/>
                     <view class="swiText">
                         <view class="iteTitle">{{ item.name }}</view>
-                        <view class="play">{{ item.playCount / 10000}}万次播放</view>
+                        <view class="play">{{ (item.playCount / 10000).toFixed(1) }}万次播放</view>
                         <view class="count">{{ item.copywriter }}</view>
                     </view>
                     <i class="iconfont icon-bofang"></i>
@@ -83,7 +93,9 @@ const headList = ref([ '我的播客', '全部分类', '排行榜', '音乐百�
                 class="picitem" 
                 @click="goDetail(item.id)" 
             >
-                <image :src="item.picUrl" mode="widthFix" />
+                <view class="picPic">
+                    <image :src="item.picUrl" mode="widthFix" />
+                </view>
                 <view class="picText">{{ item.name }}</view>
             </view>
         </view>
@@ -91,8 +103,11 @@ const headList = ref([ '我的播客', '全部分类', '排行榜', '音乐百�
     <view class="constant">
         <view>你常听的创作翻唱</view>
         <swiper class="contSwiper" display-multiple-items="3">
-            <swiper-item v-for="item in versionList" :key="item.id">
-                <view>
+            <swiper-item v-for="item in versionList" :key="item.id" 
+                @click="goDetail(item.id)"
+            >
+                <view class="picItem">
+                    <i class="iconfont icon-24gf-headphones"><span>{{ (item.subCount / 10000).toFixed(1) }}万</span></i>
                     <image :src="item.picUrl" mode="widthFix" />
                     <view class="picText">{{ item.name }}</view>
                 </view>
@@ -103,6 +118,17 @@ const headList = ref([ '我的播客', '全部分类', '排行榜', '音乐百�
 </template>
 
 <style lang='scss' scoped>
+.loading{
+    width: 250rpx;
+    height: 100rpx;
+    background: rgba(0,0,0,.2);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    border-radius: 5px;
+    z-index: 99;
+}
 .header{
     height: 50px;
     width: 100%;
@@ -113,8 +139,8 @@ const headList = ref([ '我的播客', '全部分类', '排行榜', '音乐百�
         display: flex;
         overflow: auto;
         .tags{
-            width: 70px;
-            height: 30px;
+            width: 140rpx;
+            height: 60rpx;
             border-radius: 5px;
             margin: 0 5px;
             font-size: 13px;
@@ -207,10 +233,16 @@ const headList = ref([ '我的播客', '全部分类', '排行榜', '音乐百�
     .picitem{
         margin-bottom: 15px;
     }
-    image{
-        width: 105px;
+    .picPic{
+        width: 210rpx;
+        height: 210rpx;
+        overflow: hidden;
         border-radius: 8px;
+    }
+    image{
+        width: 210rpx;
         white-space: nowrap;
+        overflow: hidden;
     }
 }
 .picText{
@@ -229,14 +261,25 @@ const headList = ref([ '我的播客', '全部分类', '排行榜', '音乐百�
 }
 .contSwiper{
     width: 100%;
-    height: 150px;
-}
-.contSwiper{
+    height: 300rpx;
     margin-top: 15px;
     image{
-        width: 100px;
+        width: 200rpx;
         border-radius: 8px;
     }
 }
-
+.picItem{
+    position: relative;
+    .icon-24gf-headphones{
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        color: #fff;
+        z-index: 3;
+        span{
+            font-size: 12px;
+            margin-left: 5px;
+        }
+    }
+}
 </style>
