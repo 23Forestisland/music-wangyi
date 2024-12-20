@@ -21,8 +21,6 @@ getHomePageApi()
         })
     })
 
-
-
 </script>
 
 <template>
