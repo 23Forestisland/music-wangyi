@@ -1,8 +1,8 @@
 <script lang='ts' setup >
 import { ref, reactive} from 'vue'
-import { getDetailApi } from '../../serviceDiscover'
+import { getDetailApi, getReviewApi } from '../../serviceDiscover'
 import { onLoad } from '@dcloudio/uni-app';
-import type { DetailItem } from '../../serviceDiscover'
+import type { DetailItem, ReviewItem } from '../../serviceDiscover'
 import AudioList from './components/AudioList.vue'
 import Recommend from './components/Recommend.vue'
 import Review from './components/Review.vue'
@@ -10,22 +10,39 @@ import Review from './components/Review.vue'
 let query = ref<number>(0)
 onLoad((options) => {
     query.value = Number(options!.id)
-    console.log(query.value)
     getDetail()
+    getReview()
 })
 const detailList = ref<DetailItem>()
 const plCont = ref(0)
+const reviewList = ref<ReviewItem[]>([])
+const flag = ref(false)
 const getDetail = async() =>{
     try{
+        flag.value = true
         const res = await getDetailApi(query.value)
-        console.log(res)
         detailList.value = res.playlist
         plCont.value = res.playlist.playCount / 10000
     }catch(e){
         console.log(e)
+    }finally{
+        flag.value = false
     }
 }
 const curIdx = ref(0)
+
+const getReview = async() =>{
+    try{
+        flag.value = true
+        const res = await getReviewApi(query.value)
+        reviewList.value = res.comments
+        console.log(res)
+    }catch(e){
+        console.log(e)
+    }finally{
+        flag.value = false
+    }
+}
 
 
 const goSearch = () => {
@@ -38,14 +55,22 @@ const navList = ref(['声音','评论','推荐'])
 
 <template>
   <view class="box">
+    <view class="loading"  v-if="flag">
+        <uni-load-more status="loading" 
+            iconType="circle" 
+            color="#fff"
+        ></uni-load-more>
+    </view>
     <view class="bg">
         <view class="header">
             <i class="iconfont icon-fanhui"></i>
             <i class="iconfont icon-sousuo" @click="goSearch"></i>
-            <i class="iconfont icon-gengduo"></i>
+            <i class="iconfont icon-gengduoxiao"></i>
         </view>
         <view class="img">
-            <image :src="detailList?.coverImgUrl" mode="widthFix" ></image>
+            <view class="imgBox">
+                <image :src="detailList?.coverImgUrl" mode="widthFix" ></image>
+            </view>
             <view class="imgText">
                 <view class="imgTitle">{{ detailList?.name }}</view>
                 <view>{{ detailList?.subscribers[0].nickname}}<i class="iconfont icon-jiantou"></i></view>
@@ -83,7 +108,7 @@ const navList = ref(['声音','评论','推荐'])
             </view>
             <view class="icon">
                 <i class="iconfont icon-paixu-jiangxu"></i>
-                <i class="iconfont icon-zhengpinbaozhang-duigou"></i>
+                <i class="iconfont icon-duigou"></i>
             </view>
         </view>
         <scroll-view scroll-y class="count">
@@ -92,7 +117,7 @@ const navList = ref(['声音','评论','推荐'])
                     <AudioList :list="detailList?.tracks" />
                 </view>
                 <view v-else-if="curIdx === 1">
-                    <Review />
+                    <Review :list="reviewList"/>
                 </view>
                 <view v-else-if="curIdx === 2">
                     <Recommend />
@@ -104,6 +129,17 @@ const navList = ref(['声音','评论','推荐'])
 </template>
 
 <style lang='scss' scoped>
+.loading{
+    width: 250rpx;
+    height: 100rpx;
+    background: rgba(0,0,0,.2);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    border-radius: 5px;
+    z-index: 99;
+}
 .box{
     width: 100vw;
     height: 100vh;
@@ -135,12 +171,16 @@ const navList = ref(['声音','评论','推荐'])
     display: flex;
     margin-bottom: 15px;
     color: #bbb;
-    image{
-        width: 110px;
-        height: 110px;
-        background: #fff;
+    .imgBox{
+        width: 220rpx;
+        height: 220rpx;
+        overflow: hidden;
         margin-right: 15px;
         border-radius: 5px;
+    }
+    image{
+        width: 100%;
+        background: #fff;
         flex-shrink: 0;
     }
     .imgText{

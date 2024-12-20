@@ -7,7 +7,6 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    WdTab: typeof import('wot-design-uni/components/wd-tab/wd-tab.vue')['default']
-    WdTabs: typeof import('wot-design-uni/components/wd-tabs/wd-tabs.vue')['default']
+    More: typeof import('./src/components/More.vue')['default']
   }
 }

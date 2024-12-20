@@ -4,12 +4,17 @@ import { getPodcastApi, getVersionApi, getPrivateApi } from '../../../serviceDis
 import type { PodcastItem } from '../../../serviceDiscover'
 
 const privateList = ref<PodcastItem[]>([])
+let status = ref('loading')
+const flag = ref(false)
 const getPrivate = async () => {
     try{
+        flag.value = true
         const res = await getPrivateApi()
         privateList.value = res.djRadios
     }catch(e){
         console.log(e)
+    }finally{
+        flag.value = false
     }
 }
 getPrivate()
@@ -51,6 +56,12 @@ const headList = ref([ '我的播客', '全部分类', '排行榜', '音乐百�
 
 <template>
  <view>
+    <view class="loading" v-if="flag">
+        <uni-load-more :status="status" 
+            iconType="circle" 
+            color="#fff"
+        ></uni-load-more>
+    </view>
     <scroll-view class="header" scroll-x>
         <view class="headItem">
             <view class="tags" v-for="item in  headList" :key="item">{{ item }}</view>
@@ -82,7 +93,9 @@ const headList = ref([ '我的播客', '全部分类', '排行榜', '音乐百�
                 class="picitem" 
                 @click="goDetail(item.id)" 
             >
-                <image :src="item.picUrl" mode="widthFix" />
+                <view class="picPic">
+                    <image :src="item.picUrl" mode="widthFix" />
+                </view>
                 <view class="picText">{{ item.name }}</view>
             </view>
         </view>
@@ -105,6 +118,17 @@ const headList = ref([ '我的播客', '全部分类', '排行榜', '音乐百�
 </template>
 
 <style lang='scss' scoped>
+.loading{
+    width: 250rpx;
+    height: 100rpx;
+    background: rgba(0,0,0,.2);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    border-radius: 5px;
+    z-index: 99;
+}
 .header{
     height: 50px;
     width: 100%;
@@ -115,8 +139,8 @@ const headList = ref([ '我的播客', '全部分类', '排行榜', '音乐百�
         display: flex;
         overflow: auto;
         .tags{
-            width: 70px;
-            height: 30px;
+            width: 140rpx;
+            height: 60rpx;
             border-radius: 5px;
             margin: 0 5px;
             font-size: 13px;
@@ -209,10 +233,16 @@ const headList = ref([ '我的播客', '全部分类', '排行榜', '音乐百�
     .picitem{
         margin-bottom: 15px;
     }
-    image{
-        width: 105px;
+    .picPic{
+        width: 210rpx;
+        height: 210rpx;
+        overflow: hidden;
         border-radius: 8px;
+    }
+    image{
+        width: 210rpx;
         white-space: nowrap;
+        overflow: hidden;
     }
 }
 .picText{
@@ -231,12 +261,10 @@ const headList = ref([ '我的播客', '全部分类', '排行榜', '音乐百�
 }
 .contSwiper{
     width: 100%;
-    height: 150px;
-}
-.contSwiper{
+    height: 300rpx;
     margin-top: 15px;
     image{
-        width: 100px;
+        width: 200rpx;
         border-radius: 8px;
     }
 }

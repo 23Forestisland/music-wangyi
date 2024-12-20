@@ -91,3 +91,28 @@ export const getDetailApi = (id:number) =>{
 export const getDayApi = () =>{
     return request<PodcastRes>({url:'https://zyxcl.xyz/music/api/recommend/resource'})
 }
+
+// 歌单评论
+export interface ReviewItem{
+    commentId: number
+    user: {
+        nickname: string
+        avatarUrl: string
+    }
+    timeStr: string
+    content: string
+}
+export interface ReviewRes {
+    code: number
+    comments: ReviewItem[]
+}
+export const getReviewApi = (id:number) =>{
+    return request<ReviewRes>({url:`https://zyxcl.xyz/music/api/comment/playlist`,data:{
+        id
+    }})
+}
+
+// vip成长值
+export const getGrowupApi = () =>{
+    return request({url:'https://zyxcl.xyz/music/api/vip/growthpoint'})
+}

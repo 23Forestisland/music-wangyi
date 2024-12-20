@@ -2,7 +2,7 @@
 import { ref, reactive} from 'vue'
 import podcast from './components/podcast.vue'
 import Music from './Music/Music.vue';
-
+import More from '../../components/More.vue'
 
 const showLeft = ref()
 const tab = ref<number>(0)
@@ -24,7 +24,7 @@ const goSearch = () => {
     <view class="box">
         <!-- tabs切换 -->
         <view class="header">
-            <i class="iconfont icon-gengduo1" @click="showLeftFn"></i>
+            <i class="iconfont icon-gengduo" @click="showLeftFn"></i>
             <view class="tab">
                 <view v-for="(item, idx) in tabs" :key="item"
                     :class="{'active': idx === tab}"
@@ -55,6 +55,7 @@ const goSearch = () => {
 
         <!-- 左侧抽屉 -->
         <uni-drawer ref="showLeft" mode="left" :width="320" >
+            <More />
 		</uni-drawer>
     </view>
 </template>
@@ -111,5 +112,8 @@ uni-page-body{
     width: 100%;
     height: 100%;
     padding-bottom: 50px;
+}
+::v-deep .uni-drawer__content--visible{
+    background: #f8f9fd;
 }
 </style>

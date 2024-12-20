@@ -23,7 +23,7 @@ const goPlay = (id:number,albumId:number,name:string,art:string) => {
                 <view class="textItem">{{ item.name }}</view>
                 <view class="play">内容</view>
             </view>
-            <i class="iconfont icon-gengduo"></i>
+            <i class="iconfont icon-gengduoxiao"></i>
         </view>
 	</view>
 </template>
