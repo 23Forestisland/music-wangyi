@@ -1,9 +1,16 @@
 <script lang="ts" setup>
 import { ref, defineComponent } from 'vue';
-import { getSongListApi, type SongListItem } from '../../../service/index';
+import { getSongListApi } from '../../../service/index';
+import type { SongListItem } from '../../../service/index';
 const musicList = ref<SongListItem[]>([]);
 
-getSongListApi()
+const props = defineProps({
+    title: String,
+    getApi: Function,
+    list: [],
+})
+
+props.getApi()
     .then((res) => {
         musicList.value = res.result;
     })
@@ -42,7 +49,7 @@ function goToListDetail(id: number) {
     <view class="song_list_wrap">
         <view class="title">
             <view class="h1">
-                甄选歌单
+                {{props.title}}
             </view>
         </view>
         <view class="song_scroll_view_wrap">

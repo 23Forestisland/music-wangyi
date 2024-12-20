@@ -31,6 +31,15 @@ export interface Res<K, V>{
     K: V[]
 }
 
+export interface BlocksItem{
+    blocks: []
+}
+
+export interface HomePageRes{
+    code: number,
+    data: BlocksItem
+}
+
 
 // 获取banner图列表接口
 export const getBannerApi = () => {
@@ -62,3 +71,9 @@ export const getSongListApi = () => {
     };
     return bannerRequest<Res<'result', SongListItem>>({ url, data });
 }
+
+// 获取首页发现-新歌新碟接口
+export const getHomePageApi = () => {
+    const url = 'https://zyxcl.xyz/music/api/homepage/block/page';
+    return bannerRequest<HomePageRes>({ url });
+};
