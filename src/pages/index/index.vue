@@ -9,24 +9,45 @@ const goSearch = () => {
     })
 }
 
+let status = ref('loading')
+const flag = ref(false)
+
 const dayList = ref<PodcastItem[]>([])
 const getDay = async() =>{
     try{
+        flag.value = true
         const res = await getDayApi()
         console.log(res)
         dayList.value = res.recommend
     }catch(e){
         console.log(e)
+    }finally{
+        flag.value = false
     }
 }
 getDay()
+
+
+const showLeft = ref()
+const showLeftFn = () => {
+    showLeft.value.open()
+}
+
 </script>
 
 <template>
-  <view>
+  <view> 
+
+    <view class="loading" v-if="flag">
+        <uni-load-more :status="status" 
+            iconType="circle" 
+            color="#fff"
+        ></uni-load-more>
+    </view>
+    
     <view class="header">
         <uni-badge class="uni-badge-left-margin" text="3" absolute="rightTop" size="small" radius="100">
-			<i class="iconfont icon-gengduo1"></i>
+			<i class="iconfont icon-gengduo" @click="showLeftFn"></i>
 		</uni-badge>
         <uni-search-bar class="uni-mt-10" radius="100" bgColor="#EEEEEE" placeholder="搜索歌曲" 
             clearButton="none" cancelButton="none" @click="goSearch"
@@ -34,6 +55,7 @@ getDay()
         <i class="iconfont icon-maikefeng"></i>
     </view>
     <scroll-view class="content" scroll-y>
+        
         <swiper class="swiperBox" next-margin="50px" display-multiple-items="2">
             <swiper-item v-for="item in dayList" :key="item.id">
                 <view class="swiperItem">
@@ -44,18 +66,32 @@ getDay()
             </swiper-item>
         </swiper>
     </scroll-view>
+    <!-- 左侧抽屉 -->
+    <uni-drawer ref="showLeft" mode="left" :width="320" >
+        <More />
+    </uni-drawer>
   </view>
 </template>
 
 <style lang='scss' scoped >
+.loading{
+    width: 250rpx;
+    height: 100rpx;
+    background: rgba(0,0,0,.2);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    border-radius: 5px;
+}
 .header{
     height: 50px;
     width: 100%;
     display: flex;
     align-items: center;
     padding: 0 15px;
-    .icon-gengduo1{
-        font-size: 18px;
+    .icon-gengduo{
+        font-size: 20px;
     }
     .icon-maikefeng{
         font-size: 25px;
@@ -112,5 +148,8 @@ getDay()
             line-height: 40px;
         }
     }
+}
+::v-deep .uni-drawer__content--visible{
+    background: #f8f9fd;
 }
 </style>
