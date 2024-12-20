@@ -1,8 +1,9 @@
 <script lang='ts' setup >
-import { ref, reactive,watch,onMounted, nextTick,watchEffect} from 'vue'
-import { onLoad } from "@dcloudio/uni-app";
+import { ref, reactive,watch,computed, nextTick, watchEffect, onMounted} from 'vue'
+import { onLoad ,onUnload} from "@dcloudio/uni-app";
 import {songApi,albumApi} from '../serviceSearch'
 import type {SongInfo} from '../serviceSearch'
+import { useStore } from '@/store'; 
 
 interface query{
     id:number
@@ -11,40 +12,45 @@ interface query{
     art:string
 }
 
+
+const store=useStore()
 const  query=ref<query>()
 const pic=ref<string>()
-const songInfo=ref<SongInfo>()
-const innerAudioContext = uni.createInnerAudioContext();
-const play=ref<boolean>(false)
-const scroll=ref<boolean>(false)
-const curTm=ref<string>()
-const dotleft=ref<string>()
-const rot=ref<number>(0)
+const songInfo=ref<SongInfo[]>([])
+
+
+
+
+
+
 const rot2=ref<number>()
-let timer:any
-let tm:number
+const songnumb=ref<number>(0)
+let src:string=''
 
 
-innerAudioContext.autoplay = true;
+
+
+
+
 onLoad((option)=>{
-    console.log(option!.albumId)
+    // console.log(option!.id)
     query.value={
         id:option!.id,
         albumId:option!.albumId,
         name:option!.name,
         art:option!.art,
     }
+
 })
 const getSong= async ()=>{
     try{
         const res=await songApi(query.value?.id as number)
         
-        songInfo.value={
-            id:res.data[0].id,
-            url:res.data[0].url,
-            time:'0'
-        }
-        // console.log(res)
+        songInfo.value=res.data
+
+        store.memo=songInfo.value[songnumb.value].url
+        // store.memo=innerAudioContext.src
+        
     }catch(e){
         console.log(e)
     }
@@ -61,71 +67,48 @@ const getalbum= async ()=>{
     }
 }
 
-innerAudioContext.onPause(() => {
-    clearInterval(timer)
-})
-
-innerAudioContext.onPlay(() => {
-    
-        timer=setInterval(()=>{
-            let curtm=Math.floor(innerAudioContext.currentTime)
-            // console.log(curtm)
-            let cursec= curtm%60<10?'0'+ curtm%60: curtm%60
-            curTm.value=Math.floor(curtm/60)+':'+cursec
-            let a =Math.floor(curtm/(tm-1)*100) + '%'
-            dotleft.value=a
-            if(!scroll.value){
-                rot.value!+=30
-                // console.log(rot.value)
-            }
-            // console.log(dotleft.value)
-        },500)
-
-})
-
-innerAudioContext.onEnded(()=>{
-    if(timer){
-        clearInterval(timer)
-    }
-    scroll.value=false
-    play.value=false
-})
 
 
-innerAudioContext.onError((res) => {
-        console.log(res.errMsg);
-        console.log(res.errCode);
-})
+
 
 const openplay=()=>{
     
-    if(play.value===true){
-        innerAudioContext.play()
-        scroll.value=false
-        play.value=false
+    if(store.innerAudioContext){
+        if(store.play===true){
+        store.innerAudioContext.play()
+        store.scroll=false
+        store.play=false
 
     }else{
-        innerAudioContext.pause()
-        scroll.value=true
-        play.value=true
+        store.innerAudioContext.pause()
+        store.scroll=true
+        store.play=true
         // console.log('assda')
+    }
     }
     
 }
 
-innerAudioContext.onCanplay(()=>{
-    // console.log(innerAudioContext.duration)
-    tm=parseInt(innerAudioContext.duration)
-    let sec=tm%60<10?'0'+tm%60:tm%60
-    songInfo.value!.time=Math.floor(tm/60) + ':'+sec
-    
-})
-// onMounted(()=>{
-//     console.log(songInfo.value)
 
-// })
-watch(scroll,()=>{
-    if(scroll.value){
+const priveSong=()=>{
+    if(songnumb.value!==0){
+        songnumb.value-=1
+    }
+}
+
+const nextSong=()=>{
+    if(songnumb.value<songInfo.value.length){
+        songnumb.value+=1
+    }
+}
+
+const playSong=computed(()=>{
+    return  songInfo.value[songnumb.value]
+})
+    
+
+watch(()=>store.scroll,()=>{
+    if(store.scroll){
         rot2.value=-30
     }else{
         rot2.value=0
@@ -135,11 +118,12 @@ watch(scroll,()=>{
 watch(()=>query.value?.id,()=>{
     getSong()
     getalbum()
+
+    
+
 })
 
-watch(()=>songInfo.value,()=>{
-    innerAudioContext.src = songInfo.value!.url
-},{once:true})
+
 
 </script>
 
@@ -153,7 +137,7 @@ watch(()=>songInfo.value,()=>{
                 <view class="share iconfont icon-fenxiang"></view>
             </view>
             <view class="record ">
-                <view class="circle" :style="{transform:`rotate(${rot}deg)`}">
+                <view class="circle" :style="{transform:`rotate(${store.rot}deg)`}">
                     <view class="light">
                         <view class="center">
                             <image :src="pic" mode="widthFix" />
@@ -176,19 +160,19 @@ watch(()=>songInfo.value,()=>{
                 </view>
                 <view class="pl-progress">
                     <view class="line">
-                        <view class="dot" :style="{left:dotleft}"></view>
+                        <view class="dot" :style="{left:store.dotleft}"></view>
                     </view>
                     <view class="prsinfo">
-                        <view> {{curTm}}</view>
+                        <view> {{store.curTm}}</view>
                         <view>极高</view>
-                        <view> {{songInfo?.time}}</view>
+                        <view> {{store.totalTime}}</view>
                     </view>
                     <view class="control">
                         <view class="iconfont icon-shunxubofang"></view>
                         <view class="cen-ctrl">
-                            <view class="iconfont icon-shangyishou1"></view>
-                            <view class="play-stop iconfont " :class="[scroll?'icon-bofang':'icon-zanting1']" @click="openplay"></view>
-                            <view class="iconfont icon-xiayishou"></view>
+                            <view class="iconfont icon-shangyishou1" @click="priveSong"></view>
+                            <view class="play-stop iconfont " :class="[store.scroll?'icon-bofang':'icon-zanting1']" @click="openplay"></view>
+                            <view class="iconfont icon-xiayishou" @click="nextSong"></view>
                         </view>
                         <view class="iconfont icon-bofangliebiao1"></view>
                     </view>
