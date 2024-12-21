@@ -1,6 +1,6 @@
 <script lang='ts' setup >
 import { ref, reactive} from 'vue'
-import { getGrowupApi, getQuestApi, getExclusiveApi } from '../serviceDiscover'
+import { getGrowupApi, getQuestApi } from '../serviceDiscover'
 
 const img = ref()
 const quest = ref()
@@ -8,8 +8,6 @@ const getGrowup = async () => {
     try{
         const res = await getGrowupApi()
         const rew = await getQuestApi()
-        const ree = await getExclusiveApi()
-        console.log(ree);
         img.value = res.data.levelCard.accountPageIconImgUrl
         quest.value = rew.data.taskList[0]
     }catch(e){
