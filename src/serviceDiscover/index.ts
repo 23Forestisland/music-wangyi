@@ -161,8 +161,13 @@ export const getCodeApi = (phone:string) =>{
     }})
 }
 // 登录验证码
-export const getHotApi = (phone:number, captcha: number) =>{
-    return request({url:'https://zyxcl.xyz/music/api/captcha/verify',data:{
+interface VerifyRes{
+    code: number
+    data: boolean
+    message: string
+}
+export const getVerifyApi = (phone:string, captcha: string) =>{
+    return request<VerifyRes>({url:'https://zyxcl.xyz/music/api/captcha/verify',data:{
         phone,
         captcha
     }})

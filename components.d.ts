@@ -8,5 +8,11 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     More: typeof import('./src/components/More.vue')['default']
+    WdButton: typeof import('wot-design-uni/components/wd-button/wd-button.vue')['default']
+    WdCellGroup: typeof import('wot-design-uni/components/wd-cell-group/wd-cell-group.vue')['default']
+    WdForm: typeof import('wot-design-uni/components/wd-form/wd-form.vue')['default']
+    WdInput: typeof import('wot-design-uni/components/wd-input/wd-input.vue')['default']
+    WdNoticeBar: typeof import('wot-design-uni/components/wd-notice-bar/wd-notice-bar.vue')['default']
+    WdToast: typeof import('wot-design-uni/components/wd-toast/wd-toast.vue')['default']
   }
 }

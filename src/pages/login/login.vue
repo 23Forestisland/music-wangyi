@@ -1,7 +1,7 @@
 <script lang='ts' setup >
 import { ref, reactive} from 'vue'
 import { useToast } from 'wot-design-uni'
-import { getCodeApi } from '../../serviceDiscover'
+import { getCodeApi, getVerifyApi } from '../../serviceDiscover'
 
 interface FormData {
     phon: string
@@ -26,7 +26,7 @@ const rules = reactive({
       ],
       code: [
         {
-          required: false,
+          required: true,
           message: '请输入验证码'
         }
       ]
@@ -36,6 +36,7 @@ const rules = reactive({
 const getCode = async (phon:string) => {
     console.log(phon)
     try{
+        toast.loading('加载中...')
         flag.value = true
         toast.show('验证码发送中')
         console.log('发送验证码')
@@ -44,26 +45,47 @@ const getCode = async (phon:string) => {
         console.log(e)
     }finally{
         flag.value = false
+        toast.close()
     }
 }
 
+const getVerify = async (phon:string, captcha: string) => {
+    try{
+        const res = await getVerifyApi(phon, captcha)
+        console.log(res)
+        if(res.code === 200){
+          toast.success('登录成功')
+          uni.redirectTo({
+              url: 'pages/discover/discover'
+          })
+        }else{
+          toast.error(res.message)
+          console.log()
+        }
+    }catch(e){
+        console.log(e)
+    }
+}
+
+
 const submit = () => {
-    toast.show('提示信息')
-    // formRef.value?.validate()
-        // .then(({ valid, errors }) => {
-        // if (valid) {
-        //     toast.show('登录成功')
-        // } 
-        // })
-        // .catch((error:any) => {
-        // console.log(error, 'error')
-    // })
+    formRef.value?.validate()
+        .then(({ valid, errors }) => {
+          if (valid) {
+            console.log(form.value.phon, form.value.code)
+            getVerify(form.value.phon, form.value.code)
+          } 
+        })
+        .catch((error:any) => {
+          console.log(error, 'error')
+        })
 }
 
 </script>
 
 <template>
   <view class="box">
+    <image src="../../static/网易云音乐.png" mode="widthFix"/>
     <wd-form ref="formRef" :model="form" :rules="rules">
     <wd-cell-group border>
         <wd-input
@@ -83,14 +105,14 @@ const submit = () => {
         v-model="form.code"
         placeholder="请输入验证码"
         />
-        <wd-button type="info" :disabled="flag" @click="getCode(form.phon)">获取验证码</wd-button>
-       
+        <wd-button :loading="flag" type="info" :disabled="flag" @click="getCode(form.phon)">获取验证码</wd-button>
     </wd-cell-group>
     <view class="footer">
         <wd-button type="error" size="large" @click="submit" block>一键登录</wd-button>
     </view>
     </wd-form>
 
+    <wd-toast />
   </view>
 </template>
 
@@ -99,7 +121,12 @@ const submit = () => {
   width: 100%;
   height: 100vh;
   background: linear-gradient(180deg, #fde4d0 0%, #fff 50%);
-  padding: 320px 40px 0;
+  padding: 100px 40px 0;
+  image{
+    width: 150px;
+    margin-left: 70px;
+    margin-bottom: 12rpx;
+  }
 }
 .getcCode{
     font-size: 14px;
