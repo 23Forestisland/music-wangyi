@@ -43,4 +43,12 @@ body,html{
     color: #8F7C82;
   }
 }
+.play-all-list {
+  .uni-list-item__content-note {
+    width: 584rpx; /*设置宽度*/
+    white-space: nowrap; /*文本不折行显示*/
+    overflow: hidden; /*溢出隐藏*/
+    text-overflow: ellipsis; /*显示省略号*/
+  }
+}
 </style>

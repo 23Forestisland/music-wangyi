@@ -77,3 +77,9 @@ export const getHomePageApi = () => {
     const url = 'https://zyxcl.xyz/music/api/homepage/block/page';
     return bannerRequest<HomePageRes>({ url });
 };
+
+// 获取排行榜详情接口
+export const getMusicChartDetail = () => {
+    // const url = `https://zyxcl.xyz/music/api/playlist/detail`;
+    // return bannerRequest({ url });
+};
