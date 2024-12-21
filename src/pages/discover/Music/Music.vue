@@ -43,7 +43,7 @@ getHomePageApi()
 .music-wrap {
     width: 100%;
     height: 100%;
-    padding-bottom: 10px;
+    padding-bottom: 20rpx;
 }
 
 </style>

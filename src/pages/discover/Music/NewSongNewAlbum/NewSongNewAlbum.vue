@@ -14,7 +14,7 @@ function formatName(n: Obj[]): String {
 }
 
 // 点击播放音乐
-function playMusic(id: string) {
+function handlePlayMusic(id) {
     // console.log("点击播放", id)
 }
 
@@ -38,7 +38,7 @@ function playMusic(id: string) {
                         :avatar="resourcesItem.uiElement.image.imageUrl"
                         :note="formatName(resourcesItem.resourceExtInfo.artists)"
                         clickable
-                        @click="playMusic(resourcesItem.resourceId)"
+                        @click="handlePlayMusic(resourcesItem.resourceId)"
                     >
                         <i class="iconfont icon-bofang"></i>
                     </uni-list-chat>
