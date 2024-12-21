@@ -9,5 +9,9 @@ declare module 'vue' {
   export interface GlobalComponents {
     MiniPlayer: typeof import('./src/components/mini-player.vue')['default']
     More: typeof import('./src/components/More.vue')['default']
+    WdBadge: typeof import('wot-design-uni/components/wd-badge/wd-badge.vue')['default']
+    WdFloatingPanel: typeof import('wot-design-uni/components/wd-floating-panel/wd-floating-panel.vue')['default']
+    WdTab: typeof import('wot-design-uni/components/wd-tab/wd-tab.vue')['default']
+    WdTabs: typeof import('wot-design-uni/components/wd-tabs/wd-tabs.vue')['default']
   }
 }

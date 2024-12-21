@@ -25,3 +25,4 @@ node_modules/
 unpackage/
 *.mp3
 *.mp4
+components.d.ts
