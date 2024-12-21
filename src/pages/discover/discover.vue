@@ -24,7 +24,9 @@ const goSearch = () => {
     <view class="box">
         <!-- tabs切换 -->
         <view class="header">
-            <i class="iconfont icon-gengduo" @click="showLeftFn"></i>
+            <uni-badge class="uni-badge-left-margin" text="3" absolute="rightTop" size="small" radius="100">
+                <i class="iconfont icon-gengduo" @click="showLeftFn"></i>
+            </uni-badge>
             <view class="tab">
                 <view v-for="(item, idx) in tabs" :key="item"
                     :class="{'active': idx === tab}"

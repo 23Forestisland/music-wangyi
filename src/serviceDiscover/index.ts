@@ -116,6 +116,7 @@ export const getReviewApi = (id:number) =>{
 interface GrowupItem{
     accountPageIconImgUrl: string
     backgroundImageUrl: string
+    redVipImageUrl?: string
 }
 interface GrowupRes{
     code: number
@@ -143,9 +144,9 @@ export const getQuestApi = () =>{
     return request<GrowupRes>({url:'https://zyxcl.xyz/music/api/vip/tasks'})
 }
 // 独家放送
-export const getExclusiveApi = () =>{
-    return request<GrowupRes>({url:'https://zyxcl.xyz/music/api/yunbei/rcmd/song?id=65528'})
-}
+// export const getExclusiveApi = () =>{
+//     return request<GrowupRes>({url:'https://zyxcl.xyz/music/api/yunbei/rcmd/song?id=65528'})
+// }
 
 // 热门榜单
 // export const getHotApi = () =>{

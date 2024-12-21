@@ -6,11 +6,12 @@ import { getCodeApi, getVerifyApi } from '../../serviceDiscover'
 interface FormData {
     phon: string
     code: string
+
 }
 const toast = useToast()
 const flag = ref(false)
 
-const formRef = ref<FormData>()
+const formRef = ref()
 const initform= ref({
     phon: '',
     code: '',
@@ -55,8 +56,8 @@ const getVerify = async (phon:string, captcha: string) => {
         console.log(res)
         if(res.code === 200){
           toast.success('登录成功')
-          uni.redirectTo({
-              url: 'pages/discover/discover'
+          uni.switchTab({
+              url: '/pages/discover/discover'
           })
         }else{
           toast.error(res.message)
@@ -70,9 +71,8 @@ const getVerify = async (phon:string, captcha: string) => {
 
 const submit = () => {
     formRef.value?.validate()
-        .then(({ valid, errors }) => {
+        .then((valid: boolean) => {
           if (valid) {
-            console.log(form.value.phon, form.value.code)
             getVerify(form.value.phon, form.value.code)
           } 
         })
