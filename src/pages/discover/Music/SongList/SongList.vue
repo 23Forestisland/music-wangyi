@@ -2,6 +2,12 @@
 import { ref } from 'vue';
 import { getSongListApi, type SongListItem } from '../../../service/index';
 const musicList = ref<SongListItem[]>([]);
+import {useEvents} from '../../../../store/event'
+
+
+const store=useEvents()
+
+
 
 getSongListApi()
     .then((res) => {
@@ -26,6 +32,13 @@ const formatNumber = (num: number): string | number => {
 
   return formattedNum;
 }
+
+
+// 跳转到详情
+
+
+
+
 </script>
 
 <template>
@@ -36,9 +49,10 @@ const formatNumber = (num: number): string | number => {
             </view>
         </view>
         <view class="song_scroll_view_wrap">
-            <scroll_view class="song_scroll_view" scroll_x>
+            <scroll-view class="song_scroll_view" scroll_x>
                 <view class="items">
-                    <view class="song_scroll_view_item" v-for="item in musicList" id="item.id" :key="item.id">
+                    <view class="song_scroll_view_item" v-for="item in musicList" id="item.id" :key="item.id" >
+                        <view @click="store.goDetail(item.id,item.name,item.picUrl)">
                         <view class="headphones-icon">
                             <i class="iconfont icon-24gf-headphones"></i>
                             <text>{{ formatNumber(item.playCount) }}</text>
@@ -50,9 +64,10 @@ const formatNumber = (num: number): string | number => {
                         <view class="music_list_desc">
                             <text class="text-desc">{{ item.name }}</text>
                         </view>
+                        </view>
                     </view>
                 </view>
-            </scroll_view>
+            </scroll-view>
         </view>
         <view class="uni-common-pb"></view>
     </view>

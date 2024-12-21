@@ -63,7 +63,10 @@ export interface DetailItem{
         }
     ]
     playCount: number
-    tracks:{
+    tracks:Track[]
+}
+export interface Track{
+    
         id: number
         name: string
         al:{
@@ -75,8 +78,7 @@ export interface DetailItem{
             id: number
             name: string
         }
-    }
-}
+} 
 export interface DetailRes {
     code: number
     playlist: DetailItem

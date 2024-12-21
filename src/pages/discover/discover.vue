@@ -4,6 +4,10 @@ import podcast from './components/podcast.vue'
 import Music from './Music/Music.vue';
 import More from '../../components/More.vue'
 
+
+
+
+
 const showLeft = ref()
 const tab = ref<number>(0)
 const tabs = ref<string[]>(['音乐','播客','听书'])
@@ -17,6 +21,9 @@ const goSearch = () => {
         url: '/pages/search/search'
     })
 }
+
+
+
 
 </script>
 
@@ -40,7 +47,7 @@ const goSearch = () => {
                 <view v-show="tab === idx">
                     <!-- 音乐 -->
                     <view v-if="idx === 0">
-                        <Music/>
+                        <Music  />
                     </view>
                     <!-- 博客 -->
                     <view v-else-if="idx === 1">

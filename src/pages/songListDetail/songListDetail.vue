@@ -5,19 +5,29 @@ import{onPageScroll} from "@dcloudio/uni-app";
 const detPage=ref()
 const pageTitle=ref<string>('歌单')
 
-onPageScroll((res)=> {
-			// console.log("页面滚动了",console.log(res))
-            if(res.scrollTop>=40){
+// onPageScroll((e)=> {
+// 			console.log("页面滚动了",console.log(res))
+//             if(res.scrollTop>=40){
+//                 pageTitle.value='迷雾之声'
+//             }else{
+//                 pageTitle.value='歌单'
+//             }
+// })
+
+const scroll=(e)=>{
+        // console.log(e)
+        if(e.detail.scrollTop>=40){
                 pageTitle.value='迷雾之声'
             }else{
                 pageTitle.value='歌单'
             }
-})
+            console.log(pageTitle.value)
+     }
 </script>
 
 <template>
 
-    <view   class="songListDetail" style="height: 100%;">
+    <scroll-view   class="songListDetail" scroll-y style="height: 100vh;" @scroll="scroll">
         <view class="rongqi">
             <view class="header">
                 <view class="it L">
@@ -40,7 +50,7 @@ onPageScroll((res)=> {
             </view>
             
         </view> 
-    </view>
+    </scroll-view>
 
 
 </template>

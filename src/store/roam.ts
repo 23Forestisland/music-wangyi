@@ -7,7 +7,7 @@ import {guessSongsApi} from '../pages/serviceSearch/'
 
 
 
-export const useStore = defineStore('indexr', () => {
+export const useRoam = defineStore('indexr', () => {
     let  historical=ref<string[]>([])
     let  memo=ref()
     let timer:any
@@ -19,8 +19,6 @@ export const useStore = defineStore('indexr', () => {
     const play=ref<boolean>(false)
     const rot=ref<number>(0)
     const listchushi=ref()
-    const songnumb=ref<number>(0)
-    const onactive=ref<boolean>(false)
     
 
     // const getintSlist=async ()=>{
@@ -47,7 +45,6 @@ export const useStore = defineStore('indexr', () => {
     innerAudioContext.autoplay = true;
     // 播放器
     innerAudioContext.onPlay(()=>{//监听播放事件
-        onactive.value=true
         scroll.value=false
         play.value=false
         timer=setInterval(()=>{
@@ -93,24 +90,10 @@ export const useStore = defineStore('indexr', () => {
 
     watch(memo,()=>{
         
-        if(memo.value){
             innerAudioContext.src=memo.value
             console.log(memo.value)
-        }
         
-    })
-
-
-
-
-
-
-
-
-
-
-
-    
+    },{deep:true})
     return { 
         historical,
         memo,
@@ -120,9 +103,6 @@ export const useStore = defineStore('indexr', () => {
         rot,
         dotleft,
         curTm,
-        totalTime,
-        songnumb,
-        onactive
+        totalTime
     }
 })
-

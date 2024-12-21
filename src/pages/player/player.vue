@@ -4,9 +4,10 @@ import { onLoad ,onUnload} from "@dcloudio/uni-app";
 import {songApi,albumApi} from '../serviceSearch'
 import type {SongInfo} from '../serviceSearch'
 import { useStore } from '@/store'; 
+import { useList } from '../../store/playlist'; 
 
 interface query{
-    id:number
+    id:string
     albumId:number
     name:string
     art:string
@@ -17,6 +18,8 @@ const store=useStore()
 const  query=ref<query>()
 const pic=ref<string>()
 const songInfo=ref<SongInfo[]>([])
+const list=useList()
+const playInfo=ref()
 
 
 
@@ -36,19 +39,19 @@ onLoad((option)=>{
     // console.log(option!.id)
     query.value={
         id:option!.id,
-        albumId:option!.albumId,
-        name:option!.name,
-        art:option!.art,
+        albumId:option!.albumId ,
+        name:option!.name ,
+        art:option!.art ,
     }
 
 })
 const getSong= async ()=>{
     try{
-        const res=await songApi(query.value?.id as number)
+        const res=await songApi(query.value?.id as string)
         
         songInfo.value=res.data
-
-        store.memo=songInfo.value[songnumb.value].url
+        console.log(songInfo.value)
+        // store.memo=songInfo.value[songnumb.value].url
         // store.memo=innerAudioContext.src
         
     }catch(e){
@@ -59,9 +62,11 @@ const getSong= async ()=>{
 
 const getalbum= async ()=>{
     try{
-        const res=await albumApi(query.value?.albumId as number)
-        // console.log(res)
-        pic.value=res.album.blurPicUrl
+        if(!isNaN(query.value!.albumId)){
+            const res=await albumApi(query.value?.albumId as number)
+            // console.log(res)
+            pic.value=res.album.blurPicUrl
+        }
     }catch(e){
         console.log(e)
     }
@@ -91,14 +96,18 @@ const openplay=()=>{
 
 
 const priveSong=()=>{
-    if(songnumb.value!==0){
+    if(songnumb.value>0){
         songnumb.value-=1
+    }else{
+        songnumb.value=songInfo.value.length-1
     }
 }
 
 const nextSong=()=>{
     if(songnumb.value<songInfo.value.length){
         songnumb.value+=1
+    }else{
+        songnumb.value=0
     }
 }
 
@@ -118,12 +127,24 @@ watch(()=>store.scroll,()=>{
 watch(()=>query.value?.id,()=>{
     getSong()
     getalbum()
-
-    
-
 })
 
+watch([songnumb,songInfo],()=>{
+    store.songnumb=songnumb.value
+    if(songInfo.value && songnumb.value<songInfo.value.length){
+        store.memo=songInfo.value[songnumb.value].url
+    }
+})
 
+watch([query,songnumb,query,pic],()=>{
+        playInfo.value={
+        pic:pic.value || list.aslist?.[songnumb.value].al.picUrl||'',
+        name:query.value?.name ||  list.aslist?.[songnumb.value].name,
+        art:query.value?.art || list.aslist?.[songnumb.value].ar.map(it=>{return it.name}).join('/')
+
+    }
+
+})
 
 </script>
 
@@ -140,7 +161,7 @@ watch(()=>query.value?.id,()=>{
                 <view class="circle" :style="{transform:`rotate(${store.rot}deg)`}">
                     <view class="light">
                         <view class="center">
-                            <image :src="pic" mode="widthFix" />
+                            <image :src="playInfo?.pic" mode="widthFix" />
                         </view>
                     </view>
                     
@@ -152,8 +173,8 @@ watch(()=>query.value?.id,()=>{
             <view class="player-item">
                 <view class="item-head">
                     <view class="text-info">
-                        <view>{{query?.name}}</view>
-                        <view>{{ query?.art }}<text class="iconfont icon-youjiantou"></text></view>
+                        <view>{{playInfo?.name}}</view>
+                        <view>{{ playInfo?.art }}<text class="iconfont icon-youjiantou"></text></view>
                     </view>
                     <view class="like iconfont icon-aixin_line"></view>
                     <view class="comments iconfont icon-pinglun-"></view>

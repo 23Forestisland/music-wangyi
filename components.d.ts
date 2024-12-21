@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    MiniPlayer: typeof import('./src/components/mini-player.vue')['default']
     More: typeof import('./src/components/More.vue')['default']
   }
 }

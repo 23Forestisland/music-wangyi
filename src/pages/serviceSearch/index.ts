@@ -137,7 +137,7 @@ export interface songPlayeRes {
     data: SongInfo[]
 }
 // 调取歌曲接口
-export const songApi= (id:number) => {
+export const songApi= (id:string) => {
     return request<songPlayeRes>({
         url: 'https://zyxcl.xyz/music/api/song/url',
         data: {

@@ -51,6 +51,7 @@
     "@dcloudio/uni-mp-xhs": "3.0.0-4030620241128001",
     "@dcloudio/uni-quickapp-webview": "3.0.0-4030620241128001",
     "@dcloudio/uni-ui": "^1.5.7",
+    "@rollup/rollup-win32-x64-msvc": "^4.28.1",
     "@vue/tsconfig": "^0.7.0",
     "pinia": "^2.3.0",
     "sass": "^1.83.0",
