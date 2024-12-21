@@ -173,3 +173,33 @@ export const getVerifyApi = (phone:string, captcha: string) =>{
         captcha
     }})
 }
+export const getPhonApi = (phone:string, captcha: string) =>{
+    return request<VerifyRes>({url:'https://zyxcl.xyz/music/api/login/cellphone',data:{
+        phone,
+        captcha
+    }})
+}
+// 二维码登录
+interface KeyRes{
+    code: number
+    data: {
+        code: number
+        unikey: string
+        qrimg?: string
+        qrurl?: string
+    }
+}
+export const getKeyApi = () =>{
+    return request<KeyRes>({url:'https://zyxcl.xyz/music/api/login/qr/key'})
+}
+export const getKeyCodeApi = (key:string) =>{
+    return request<KeyRes>({url:'https://zyxcl.xyz/music/api/login/qr/create',data:{
+        key,
+        qrimg: true
+    }})
+}
+export const getStatusApi = (key:string) =>{
+    return request<KeyRes>({url:'https://zyxcl.xyz/music/api/login/qr/check',data:{
+        key
+    }})
+}
