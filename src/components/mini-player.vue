@@ -37,7 +37,7 @@ const playA=ref({
 const rot2=ref<number>()
 const songnumb=ref<number>(0)
 let src:string=''
-
+const a=123
 
 
 
