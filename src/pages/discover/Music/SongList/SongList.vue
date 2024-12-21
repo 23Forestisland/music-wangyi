@@ -7,12 +7,21 @@ const musicList = ref<SongListItem[]>([]);
 const props = defineProps({
     title: String,
     getApi: Function,
+    getChartApi: Function,
+    showType: String,
     list: [],
 })
 
 props.getApi()
     .then((res) => {
-        musicList.value = res.result;
+        if(res) {
+            if(props.showType === 'list') {
+                musicList.value = res.result;
+            } else if(props.showType === 'chart') {
+                const l = res.list.slice(0, 6);
+                musicList.value = l;
+            }
+        }
     })
 
 // 处理数字展示亿/万单位
@@ -37,10 +46,17 @@ const formatNumber = (num: number): string | number => {
 }
 
 function goToListDetail(id: number) {
-    // 跳转到歌单详情页
-    uni.navigateTo({
-        url: `/pages/detail/detail?id=${id}`,
-    });
+    if(props.showType === 'list') {
+        // 跳转到歌单详情页
+        uni.navigateTo({
+            url: `/pages/detail/detail?id=${id}`,
+        });
+    } else if(props.showType === 'chart') {
+        // 跳转到排行榜详情页
+        uni.navigateTo({
+            url: `/pages/musicChartDetail/musicChartDetail?id=${id}`,
+        });
+    }
 };
 
 </script>
@@ -49,6 +65,7 @@ function goToListDetail(id: number) {
     <view class="song_list_wrap">
         <view class="title">
             <view class="h1">
+                <!-- 标题 -->
                 {{props.title}}
             </view>
         </view>
@@ -56,11 +73,11 @@ function goToListDetail(id: number) {
             <scroll_view class="song_scroll_view" scroll_x>
                 <view class="items">
                     <view class="song_scroll_view_item" v-for="item in musicList" :key="item.id" @click="goToListDetail(item.id)">
-                        <view class="headphones-icon">
+                        <view class="headphones-icon" v-if="item.playCount">
                             <i class="iconfont icon-24gf-headphones"></i>
                             <text>{{ formatNumber(item.playCount) }}</text>
                         </view>
-                        <image :src="item.picUrl"/>
+                        <image :src="item.picUrl ? item.picUrl : item.coverImgUrl"/>
                         <view class="bofang-icon">
                             <i class="iconfont icon-bofang"></i>
                         </view>
