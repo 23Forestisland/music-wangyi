@@ -35,7 +35,6 @@ const getVersion = async() =>{
     try{
         const res = await getVersionApi()
         versionList.value = res.djRadios
-        console.log(res.djRadios)
     }catch(e){
         console.log(e)
     }
@@ -48,7 +47,11 @@ const goDetail = (id: number) => {
         url: `/pages/detail/detail?id=${id}`
     })
 }
-
+const goPlayer = (id:number,albumId:number,name:string,art:string) =>{
+    uni.navigateTo({
+        url: `/pages/player/player?id=${id}&albumId=${albumId}&name=${name}&art=${art}`
+    })
+}
 
 const headList = ref([ '我的播客', '全部分类', '排行榜', '音乐百科', '助眠解压', '广播电台' ])
 
@@ -69,6 +72,7 @@ const headList = ref([ '我的播客', '全部分类', '排行榜', '音乐百�
     </scroll-view>
     <swiper class="swiperBox" next-margin="20px" previous-margin="20px">
         <swiper-item class="swiperItem" v-for="item in privateList" :key="item.id"
+            @click="goPlayer(item.id, item.dj?.backgroundImgId,item.name,item.dj?.nickname)"
         >
             <view class="swiCount">
                <view class="pad">

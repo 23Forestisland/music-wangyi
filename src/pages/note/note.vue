@@ -4,7 +4,6 @@ import Follow from './components/follow.vue';
 import Recommend from './components/recommend.vue';
 import type{ noteRecommendItem, followItem} from '../../pages/service/type'
 import { getFollowApi,getRecommendApi } from '../service';
- 
 
 
     const recommendList = ref<noteRecommendItem[]>([]);
@@ -28,9 +27,6 @@ import { getFollowApi,getRecommendApi } from '../service';
 </script>
 
 <template>
- <!-- <div>
-<h1>笔记</h1>
- </div> -->
  
     <view class="notea">
         <view class="nav">
