@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { onMounted, ref, onUnmounted } from 'vue';
 import { getMusicChartDetailApi } from '../service';
-import { onLoad } from '@dcloudio/uni-app';
+import { onLoad, onPageScroll } from '@dcloudio/uni-app';
 import { formatNumber } from '../discover/Music/index';
-const isHidden = ref<Boolean>(true);
-const containerRef = ref(null);
+const isHidden = ref<Boolean>(true); // 是否隐藏收藏/评论/分享
+const isLoading = ref<Boolean>(false); // 页面加载loading
 const playlist = ref<playlistItem>({
     coverImgUrl: '',
     name: '',
@@ -34,9 +34,11 @@ interface playlistItem{
 onLoad((option) => {
     const { id } = option;
     // 获取榜单详情页数据
+    isLoading.value = true;
     getMusicChartDetailApi({ id })
     .then((res) => {
         playlist.value = res.playlist;
+        isLoading.value = false;
     })
 })
 
@@ -51,28 +53,15 @@ const formatUpdateTime = (time: number) => {
     return `${date.getMonth() + 1}月${date.getDate()}日`;
 }
 
-onMounted(() => {
-    // window.addEventListener('scroll', handleScroll);
-    // // 如果想要监听特定容器的滚动事件，而不是整个窗口的，可以取消下面这行代码的注释，并注释掉上面的window.addEventListener
-    // console.log("111", window.addEventListener('scroll', handleScroll))
-    // // containerRef.value.addEventListener('scroll', handleScroll);
-});
-
-// const handleScroll = () => {
-//     if (containerRef.value) {
-//         const rect = containerRef.value.getBoundingClientRect();
-//         console.log("scroll", rect)
-//         // 检查sticky-header是否已经完全滚动出视口
-//         isHidden.value = rect.top <= 0;
-//     }
-// };
-
-// onUnmounted(() => {
-//     window.removeEventListener('scroll', handleScroll);
-//     // 如果监听了特定容器的滚动事件，则应该取消下面这行代码的注释，并注释掉上面的window.removeEventListener
-//     // containerRef.value.removeEventListener('scroll', handleScroll);
-// });
-
+// 监听滚动条滚动事件
+const handleScroll = (e) => {
+    const { scrollTop } = e.detail;
+    if(scrollTop <= 112) {
+        isHidden.value = true;
+    } else {
+        isHidden.value = false;
+    };
+}
 
 const goBack = () => {
     uni.navigateBack({
@@ -84,6 +73,7 @@ const goBack = () => {
 
 </script>
 <template>
+    <uni-load-more :status="'loading'" class="loading" v-if="isLoading"/>
     <view class="music-chart-detail-view">
         <!-- 背景图 -->
         <view class="bg" :style="{'background-image': 'url('+playlist.coverImgUrl+')'}"></view>
@@ -98,7 +88,7 @@ const goBack = () => {
             </view>
         </view>
         <!-- 内容 -->
-        <view class="content" ref="containerRef">
+        <scroll-view class="content" :scroll-top="scrollTop" scroll-y="true" @scroll="handleScroll">
             <!-- 榜单标题 -->
             <view class="music-chart-title">
                 <view class="logo">
@@ -111,7 +101,7 @@ const goBack = () => {
             <!-- 榜单列表详情 -->
             <view class="music-chart-detail">
                 <!-- 用户操作：收藏/评论/分享 -->
-                <view class="user-actions" v-if="isHidden" >
+                <view class="user-actions" v-show="isHidden" >
                     <!-- 收藏 -->
                     <view class="user-actions-item">
                         <image src="../../static/duigou.png"></image>
@@ -163,11 +153,16 @@ const goBack = () => {
                     </view>
                 </view>
             </view>
-
-    </view>
+        </scroll-view>
     </view>
 </template>
 <style lang="scss" scoped>
+.loading {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
 .music-chart-detail-view {
     width: 100%;
     height: 100vh;
@@ -289,6 +284,10 @@ const goBack = () => {
                     display: flex;
                     justify-content: space-between;
                     padding: 0 36rpx 0 22rpx;
+                    top: 0;
+                    position: sticky;
+                    z-index: 9;
+                    background: #fff;
                     .play-all-box-l {
                         display: flex;
                         align-items: center;
