@@ -28,9 +28,14 @@ export interface SongListItem{
     picUrl: string,
     playCount: number
 }
-export interface Res<K, V>{
+
+export interface MusicChartDetailItem{
+    id: number
+}
+export interface Res<K, V, O>{
     code: number,
-    K: V[]
+    K: V[],
+    O?: object
 }
 
 export interface BlocksItem{
@@ -87,7 +92,7 @@ export const getMusicChartApi = () => {
 };
 
 // 获取排行榜详情接口
-export const getMusicChartDetailApi = () => {
+export const getMusicChartDetailApi = ({ id }) => {
     const url = `${baseUrl}/playlist/detail`;
-    return bannerRequest({ url });
+    return bannerRequest<Res<'privileges', MusicChartDetailItem, 'playlist'>>({ url, data: { id } });
 };

@@ -1,21 +1,57 @@
 <script lang="ts" setup>
 import { onMounted, ref, onUnmounted } from 'vue';
-import { getMusicChartDetail } from '../service';
+import { getMusicChartDetailApi } from '../service';
+import { onLoad } from '@dcloudio/uni-app';
+import { formatNumber } from '../discover/Music/index';
 const isHidden = ref<Boolean>(true);
 const containerRef = ref(null);
+const playlist = ref<playlistItem>({
+    coverImgUrl: '',
+    name: '',
+    updateTime: 0,
+    subscribedCount: 0,
+    playCount: 0,
+    trackCount: 0,
+    tracks: [],
+});
 
+interface trackItem{
+    id: number;
+    name: string;
+    ar: Object[];
+};
+
+interface playlistItem{
+    coverImgUrl: string;
+    name: string;
+    updateTime: number;
+    subscribedCount: number;
+    playCount: number;
+    trackCount: number;
+    tracks: trackItem[];
+};
+
+onLoad((option) => {
+    const { id } = option;
+    // 获取榜单详情页数据
+    getMusicChartDetailApi({ id })
+    .then((res) => {
+        playlist.value = res.playlist;
+    })
+})
+
+// 展示全部歌手的名字
+const singerName = (ar: Object[]) => {
+    return ar.map((item) => item.name).join('/');
+}
+
+// 格式化更新时间
+const formatUpdateTime = (time: number) => {
+    const date = new Date(time);
+    return `${date.getMonth() + 1}月${date.getDate()}日`;
+}
 
 onMounted(() => {
-    // 请求榜单详情
-    // uni.request({
-    //     url: 'https://zyxcl.xyz/music/api/playlist/detail',
-    //     data: {
-    //         id: '24381616'
-    //     },
-    //     success: (res) => {
-    //         console.log('rrr', res);
-    //     }
-    // });
     // window.addEventListener('scroll', handleScroll);
     // // 如果想要监听特定容器的滚动事件，而不是整个窗口的，可以取消下面这行代码的注释，并注释掉上面的window.addEventListener
     // console.log("111", window.addEventListener('scroll', handleScroll))
@@ -50,7 +86,7 @@ const goBack = () => {
 <template>
     <view class="music-chart-detail-view">
         <!-- 背景图 -->
-        <view class="bg"></view>
+        <view class="bg" :style="{'background-image': 'url('+playlist.coverImgUrl+')'}"></view>
         <!-- 头部 -->
         <view class="header">
             <view class="header-l">
@@ -69,25 +105,28 @@ const goBack = () => {
                     <image src="../../static/logo.png"/>
                     <text class="name">{{ "网易云音乐" }}</text>
                 </view>
-                <view class="title">{{ "热歌榜" }}</view>
-                <view class="update-time">{{ "最近更新时间" }}<text>{{ "12月20日" }}</text></view>
+                <view class="title">{{ playlist.name }}</view>
+                <view class="update-time">{{ "最近更新时间" }}<text>{{ formatUpdateTime(playlist.updateTime) }}</text></view>
             </view>
             <!-- 榜单列表详情 -->
             <view class="music-chart-detail">
                 <!-- 用户操作：收藏/评论/分享 -->
                 <view class="user-actions" v-if="isHidden" >
-                    <text class="user-actions-item">
+                    <!-- 收藏 -->
+                    <view class="user-actions-item">
                         <image src="../../static/duigou.png"></image>
-                        <text class="count">1226万</text>
-                    </text>
-                    <text class="user-actions-item">
+                        <text class="count">{{ formatNumber(playlist.subscribedCount) }}</text>
+                    </view>
+                    <!-- 评论 -->
+                    <view class="user-actions-item">
                         <image src="../../static/pinglun.png"></image>
-                        <text class="count">29万</text>
-                    </text>
-                    <text class="user-actions-item no-line">
+                        <text class="count">{{ formatNumber(playlist.playCount) }}</text>
+                    </view>
+                    <!-- 分享 -->
+                    <view class="user-actions-item no-line">
                         <image src="../../static/fenxiang.png"></image>
-                        <text class="count">62034</text>
-                    </text>
+                        <text class="count">{{ formatNumber(playlist.playCount) }}</text>
+                    </view>
                 </view>
                 <view class="empty"></view>
                 <view class="music-chart-detail-content">
@@ -95,7 +134,7 @@ const goBack = () => {
                     <view class="play-all-box">
                         <view class="play-all-box-l">
                             <image src="../../static/bofang.png"/>
-                            <text class="play-all-btn">{{ "播放全部" }}<text>{{ "(100)" }}</text></text>
+                            <text class="play-all-btn">{{ "播放全部" }}<text>({{ playlist.trackCount }})</text></text>
                         </view>
                         <view class="play-all-box-r">
                             <image src="../../static/xiazai.png"/>
@@ -107,157 +146,14 @@ const goBack = () => {
                         <uni-list :border="true">
                             <uni-list-item
                                 class="list-item"
+                                v-for="(item, index) in playlist.tracks"
+                                :key= "item.id"
                                 ellipsis="1"
-                                title="列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字"
-                                note="列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息"
+                                :title="item.name"
+                                :note="singerName(item.ar)"
                             >
                                 <template v-slot:header>
-                                    <view class="list-item-h">00</view>
-                                </template>
-                                <template v-slot:footer>
-                                    <i class="iconfont icon-gengduoxiao"></i>
-                                </template>
-                            </uni-list-item>
-                            <uni-list-item
-                                class="list-item"
-                                ellipsis="1"
-                                title="列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字"
-                                note="列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息"
-                            >
-                                <template v-slot:header>
-                                    <view class="list-item-h">00</view>
-                                </template>
-                                <template v-slot:footer>
-                                    <i class="iconfont icon-gengduoxiao"></i>
-                                </template>
-                            </uni-list-item><uni-list-item
-                                class="list-item"
-                                ellipsis="1"
-                                title="列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字"
-                                note="列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息"
-                            >
-                                <template v-slot:header>
-                                    <view class="list-item-h">00</view>
-                                </template>
-                                <template v-slot:footer>
-                                    <i class="iconfont icon-gengduoxiao"></i>
-                                </template>
-                            </uni-list-item><uni-list-item
-                                class="list-item"
-                                ellipsis="1"
-                                title="列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字"
-                                note="列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息"
-                            >
-                                <template v-slot:header>
-                                    <view class="list-item-h">00</view>
-                                </template>
-                                <template v-slot:footer>
-                                    <i class="iconfont icon-gengduoxiao"></i>
-                                </template>
-                            </uni-list-item><uni-list-item
-                                class="list-item"
-                                ellipsis="1"
-                                title="列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字"
-                                note="列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息"
-                            >
-                                <template v-slot:header>
-                                    <view class="list-item-h">00</view>
-                                </template>
-                                <template v-slot:footer>
-                                    <i class="iconfont icon-gengduoxiao"></i>
-                                </template>
-                            </uni-list-item><uni-list-item
-                                class="list-item"
-                                ellipsis="1"
-                                title="列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字"
-                                note="列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息"
-                            >
-                                <template v-slot:header>
-                                    <view class="list-item-h">00</view>
-                                </template>
-                                <template v-slot:footer>
-                                    <i class="iconfont icon-gengduoxiao"></i>
-                                </template>
-                            </uni-list-item><uni-list-item
-                                class="list-item"
-                                ellipsis="1"
-                                title="列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字"
-                                note="列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息"
-                            >
-                                <template v-slot:header>
-                                    <view class="list-item-h">00</view>
-                                </template>
-                                <template v-slot:footer>
-                                    <i class="iconfont icon-gengduoxiao"></i>
-                                </template>
-                            </uni-list-item><uni-list-item
-                                class="list-item"
-                                ellipsis="1"
-                                title="列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字"
-                                note="列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息"
-                            >
-                                <template v-slot:header>
-                                    <view class="list-item-h">00</view>
-                                </template>
-                                <template v-slot:footer>
-                                    <i class="iconfont icon-gengduoxiao"></i>
-                                </template>
-                            </uni-list-item><uni-list-item
-                                class="list-item"
-                                ellipsis="1"
-                                title="列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字"
-                                note="列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息"
-                            >
-                                <template v-slot:header>
-                                    <view class="list-item-h">00</view>
-                                </template>
-                                <template v-slot:footer>
-                                    <i class="iconfont icon-gengduoxiao"></i>
-                                </template>
-                            </uni-list-item><uni-list-item
-                                class="list-item"
-                                ellipsis="1"
-                                title="列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字"
-                                note="列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息"
-                            >
-                                <template v-slot:header>
-                                    <view class="list-item-h">00</view>
-                                </template>
-                                <template v-slot:footer>
-                                    <i class="iconfont icon-gengduoxiao"></i>
-                                </template>
-                            </uni-list-item><uni-list-item
-                                class="list-item"
-                                ellipsis="1"
-                                title="列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字"
-                                note="列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息"
-                            >
-                                <template v-slot:header>
-                                    <view class="list-item-h">00</view>
-                                </template>
-                                <template v-slot:footer>
-                                    <i class="iconfont icon-gengduoxiao"></i>
-                                </template>
-                            </uni-list-item><uni-list-item
-                                class="list-item"
-                                ellipsis="1"
-                                title="列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字"
-                                note="列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息"
-                            >
-                                <template v-slot:header>
-                                    <view class="list-item-h">00</view>
-                                </template>
-                                <template v-slot:footer>
-                                    <i class="iconfont icon-gengduoxiao"></i>
-                                </template>
-                            </uni-list-item><uni-list-item
-                                class="list-item"
-                                ellipsis="1"
-                                title="列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字列表文字"
-                                note="列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息列表描述信息"
-                            >
-                                <template v-slot:header>
-                                    <view class="list-item-h">00</view>
+                                    <view class="list-item-h">{{ index + 1 }}</view>
                                 </template>
                                 <template v-slot:footer>
                                     <i class="iconfont icon-gengduoxiao"></i>
@@ -281,7 +177,6 @@ const goBack = () => {
         position: fixed;
         top: 0;
         left: 0;
-        background-image: url(../../static/雪山.png);
         background-position: center 0;
         background-size: cover; /*背景图平铺*/
         filter: blur(3px); /*模糊*/
@@ -388,7 +283,7 @@ const goBack = () => {
                 width: 100%;
             }
             .music-chart-detail-content {
-                height: 100vh;
+                height: 100%;
                 .play-all-box {
                     height: 82rpx;
                     display: flex;
@@ -423,8 +318,8 @@ const goBack = () => {
                     }
                 }
                 .play-all-list {
-                    height: 100vh;
-                    // overflow-y: scroll;
+                    height: 100%;
+                    margin-bottom: 86rpx;
                     .uni-list-item__container {
                         align-items: center;
                         .list-item-h {
