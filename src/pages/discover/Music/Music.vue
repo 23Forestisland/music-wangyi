@@ -1,5 +1,5 @@
 <script lang='ts' setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { getSongListApi, getHomePageApi, getMusicChartApi } from '../../service/index';
 import type { SongListItem } from '../../service/index';
 import DiscoverNav from './DiscoverNav/DiscoverNav.vue';
@@ -20,6 +20,9 @@ getHomePageApi()
                 blockList.value = item.creatives;
             }
         })
+    })
+    .catch((e) => {
+        console.log("error:", e);
     })
 
 
@@ -45,7 +48,7 @@ getHomePageApi()
 <style lang='scss' scoped>
 .music-wrap {
     width: 100%;
-    height: 100%;
+    height: 100vh;
     padding-bottom: 20rpx;
 }
 
