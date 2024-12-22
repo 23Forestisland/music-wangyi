@@ -1,10 +1,15 @@
 <script lang="ts" setup>
-import { onMounted, ref, onUnmounted } from 'vue';
+import { ref, getCurrentInstance } from 'vue';
 import { getMusicChartDetailApi } from '../service';
-import { onLoad, onPageScroll } from '@dcloudio/uni-app';
+import { onLoad, onPageScroll, onReady } from '@dcloudio/uni-app';
 import { formatNumber } from '../discover/Music/index';
 const isHidden = ref<Boolean>(true); // 是否隐藏收藏/评论/分享
 const isLoading = ref<Boolean>(false); // 页面加载loading
+const targetElement = ref(null);
+const listTop = ref<number>(0); //"收藏/评论/分享"盒子离页面顶部的距离
+const headerHeight = ref<number>(0); // .header的高度
+const instance = getCurrentInstance();
+
 const playlist = ref<playlistItem>({
     coverImgUrl: '',
     name: '',
@@ -42,6 +47,27 @@ onLoad((option) => {
     })
 })
 
+// 组件挂载
+onReady(() => {
+    const query = uni.createSelectorQuery().in(instance.proxy);
+    // 节点离页面顶部的距离
+    query
+    .select("#user-actions")
+    .boundingClientRect((data) => {
+        listTop.value = data.top;
+    })
+    .exec();
+
+    // 得到布局位置信息
+    query
+    .select("#header")
+    .boundingClientRect((data) => {
+        const { height } = JSON.parse(JSON.stringify(data));
+        headerHeight.value = height;
+    })
+    .exec();
+})
+
 // 展示全部歌手的名字
 const singerName = (ar: Object[]) => {
     return ar.map((item) => item.name).join('/');
@@ -55,8 +81,10 @@ const formatUpdateTime = (time: number) => {
 
 // 监听滚动条滚动事件
 const handleScroll = (e) => {
+    // 计算收藏/评论/分享到header头部的距离
+    const h = listTop.value - headerHeight.value;
     const { scrollTop } = e.detail;
-    if(scrollTop <= 112) {
+    if(scrollTop <= h) {
         isHidden.value = true;
     } else {
         isHidden.value = false;
@@ -78,7 +106,7 @@ const goBack = () => {
         <!-- 背景图 -->
         <view class="bg" :style="{'background-image': 'url('+playlist.coverImgUrl+')'}"></view>
         <!-- 头部 -->
-        <view class="header">
+        <view class="header" id="header">
             <view class="header-l">
                 <i class="iconfont icon-fanhui" @click="goBack"></i>
             </view>
@@ -101,7 +129,7 @@ const goBack = () => {
             <!-- 榜单列表详情 -->
             <view class="music-chart-detail">
                 <!-- 用户操作：收藏/评论/分享 -->
-                <view class="user-actions" v-show="isHidden" >
+                <view class="user-actions" id="user-actions" v-show="isHidden" ref="targetElement">
                     <!-- 收藏 -->
                     <view class="user-actions-item">
                         <image src="../../static/duigou.png"></image>
@@ -178,9 +206,9 @@ const goBack = () => {
         transform: scale(1.2);
     }
     .header {
-        height: 87rpx;
+        height: 86rpx;
         display: flex;
-        line-height: 87rpx;
+        line-height: 86rpx;
         justify-content: space-between;
         padding-left: 38rpx;
         padding-right: 54rpx;
