@@ -97,17 +97,20 @@ const submit = () => {
 }
 
 const keyCode = ref()
+let timer = null
 const getStatus = async (key:string) => {
   try{
     const res = await getStatusApi(key)
     console.log(res)
     if(res.code === 803){
+      clearInterval(timer)
       toast.success('登录成功')
+      document.cookie = `token=${res.cookie}`
       uni.switchTab({
         url: '/pages/discover/discover'
       })
     }else{
-      toast.error('登录失败')
+      toast.error(res.message)
     }
   }catch(e){
     console.log(e)
@@ -120,7 +123,7 @@ const getKeyCode = async (key:string) => {
     console.log(res)
     keyCode.value = res.data.qrimg
     if(res.code === 200){
-      setTimeout(()=>{
+      timer=setInterval(()=>{
         getStatus(key)
       },15000)
     }else{

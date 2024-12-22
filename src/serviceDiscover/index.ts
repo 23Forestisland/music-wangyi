@@ -24,6 +24,10 @@ export interface PodcastItem{
     playCount: number
     copywriter: string
     subCount?: number
+    dj?:{
+        nickname: string
+        backgroundImgId: number
+    }
 }
 export interface PodcastRes {
     code: number
@@ -188,6 +192,8 @@ interface KeyRes{
         qrimg?: string
         qrurl?: string
     }
+    cookie?: string
+    message?: string
 }
 export const getKeyApi = () =>{
     return request<KeyRes>({url:'https://zyxcl.xyz/music/api/login/qr/key'})

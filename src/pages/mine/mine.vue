@@ -31,11 +31,10 @@ const anchors = ref<number[]>([])
 const handleHeightChange = ({ height }: { height: number }) => {
   console.log(height)
 }
-
 onLoad(() => {
-  windowHeight.value = uni.getSystemInfoSync().windowHeight
-  anchors.value = [100, Math.round(0.6 * windowHeight.value), Math.round(1 * windowHeight.value)]
-  height.value = anchors.value[1]
+    windowHeight.value = uni.getSystemInfoSync().windowHeight
+    anchors.value = [100, Math.round(0.6 * windowHeight.value), Math.round(1 * windowHeight.value)]
+    height.value = anchors.value[1]
 })
 const showLeft = ref()
 const showLeftFn = () => {
