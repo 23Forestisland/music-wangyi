@@ -1,6 +1,6 @@
 <script lang='ts' setup>
-import { ref } from 'vue';
-import { getSongListApi, getHomePageApi } from '../../service/index';
+import { onMounted, ref } from 'vue';
+import { getSongListApi, getHomePageApi, getMusicChartApi } from '../../service/index';
 import type { SongListItem } from '../../service/index';
 import DiscoverNav from './DiscoverNav/DiscoverNav.vue';
 import DiscoverSwiper from './DiscoverSwiper/DiscoverSwiper.vue';
@@ -10,6 +10,7 @@ import NewSongNewAlbum from './NewSongNewAlbum/NewSongNewAlbum.vue';
 const zhenXuanTitle = ref<string>("甄选歌单");
 const yunCunTitle = ref<string>("云村新鲜事");
 const newSongNewAlbumTitle = ref<string>("新歌新碟");
+const rankTitle = ref<string>("排行榜");
 const blockList = ref([]);
 
 getHomePageApi()
@@ -19,6 +20,9 @@ getHomePageApi()
                 blockList.value = item.creatives;
             }
         })
+    })
+    .catch((e) => {
+        console.log("error:", e);
     })
 
 
@@ -31,19 +35,21 @@ getHomePageApi()
         <!-- 轮播图 -->
         <DiscoverSwiper/>
         <!-- 甄选歌单 -->
-        <SongList :title="zhenXuanTitle" :getApi="getSongListApi"/>
+        <SongList :title="zhenXuanTitle" :getApi="getSongListApi" :showType="'list'"/>
         <!-- 云村新鲜事 -->
-        <SongList :title="yunCunTitle" :getApi="getSongListApi"/>
+        <SongList :title="yunCunTitle" :getApi="getSongListApi" :showType="'list'"/>
         <!-- 新歌新碟 -->
         <NewSongNewAlbum :title="newSongNewAlbumTitle" :list="blockList"/>
+        <!-- 排行榜 -->
+        <SongList :title="rankTitle" :getApi="getMusicChartApi" :showType="'chart'"/>
     </scroll-view>
 </template>
 
 <style lang='scss' scoped>
 .music-wrap {
     width: 100%;
-    height: 100%;
-    padding-bottom: 10px;
+    height: 100vh;
+    padding-bottom: 20rpx;
 }
 
 </style>

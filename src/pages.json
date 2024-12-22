@@ -59,6 +59,12 @@
 			"style": {
 				"navigationBarTitleText": "注册"
 			}
+		},
+		{
+			"path": "pages/musicChartDetail/musicChartDetail",
+			"style": {
+				"navigationBarTitleText": "排行榜详情"
+			}
 		}
 		
 	],"tabBar": {
