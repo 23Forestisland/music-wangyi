@@ -43,6 +43,11 @@ body,html{
     color: #8F7C82;
   }
 }
+.content {
+  .uni-scroll-view-content {
+    height: initial;
+  }
+}
 .play-all-list {
   .uni-list-item__content-note {
     width: 584rpx; /*设置宽度*/
