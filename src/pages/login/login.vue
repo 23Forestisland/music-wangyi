@@ -125,7 +125,7 @@ const getKeyCode = async (key:string) => {
     if(res.code === 200){
       timer=setInterval(()=>{
         getStatus(key)
-      },15000)
+      },5000)
     }else{
       toast.error('获取key失败')
     }

@@ -99,6 +99,7 @@ const showLeftFn = () => {
                 </swiper-item>
             </swiper>
         </view>
+        <text class="half-border">hhhhh45646515</text>
     </scroll-view>
     <!-- 左侧抽屉 -->
     <uni-drawer ref="showLeft" mode="left" :width="320" >
@@ -217,4 +218,20 @@ const showLeftFn = () => {
     }
 }
 
+.half-border {
+  position: relative;
+  border: none;
+}
+.half-border:before {
+  content: '';
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  top: 0;
+  left: 0;
+  border: 1px solid black;
+  transform: scale(0.5); 
+  transform-origin: 0 0;
+  box-sizing: border-box;
+}
 </style>
