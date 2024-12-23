@@ -5,10 +5,11 @@ import { onLoad, onPageScroll, onReady } from '@dcloudio/uni-app';
 import { formatNumber } from '../discover/Music/index';
 const isHidden = ref<Boolean>(true); // 是否隐藏收藏/评论/分享
 const isLoading = ref<Boolean>(false); // 页面加载loading
-const targetElement = ref(null);
 const listTop = ref<number>(0); //"收藏/评论/分享"盒子离页面顶部的距离
 const headerHeight = ref<number>(0); // .header的高度
 const instance = getCurrentInstance();
+const hidepic = ref(null);
+const showpic = ref(null);
 
 const playlist = ref<playlistItem>({
     coverImgUrl: '',
@@ -84,10 +85,26 @@ const handleScroll = (e) => {
     // 计算收藏/评论/分享到header头部的距离
     const h = listTop.value - headerHeight.value;
     const { scrollTop } = e.detail;
+    var animation = uni.createAnimation({}) //创建一个动画实例
+
     if(scrollTop <= h) {
         isHidden.value = true;
-    } else {
+        // animation.scale(1).step();
+        //淡入（显示）
+        animation.opacity(1).step({
+        	duration: 200
+        }) //描述动画
+
+        // //输出动画
+        showpic.value = animation.export()
+    }else {
         isHidden.value = false;
+        // animation.scale(0.8).step();
+        //淡出（隐藏）
+        animation.opacity(0).step({
+        	duration: 200
+        })
+        hidepic.value = animation.export()
     };
 }
 
@@ -129,7 +146,7 @@ const goBack = () => {
             <!-- 榜单列表详情 -->
             <view class="music-chart-detail">
                 <!-- 用户操作：收藏/评论/分享 -->
-                <view class="user-actions" id="user-actions" v-show="isHidden" ref="targetElement">
+                <view class="user-actions" id="user-actions" :animation="isHidden ? showpic : hidepic">
                     <!-- 收藏 -->
                     <view class="user-actions-item">
                         <image src="../../static/duigou.png"></image>
